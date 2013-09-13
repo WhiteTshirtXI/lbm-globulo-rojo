@@ -2,9 +2,9 @@
 	#define FRONTERAS_H
 	using namespace std;
 
-	void velNodoSuperior(double g[19], double f[19], double U, double V, double W);
-	void velNodoInferior(double g[19], double f[19], double U, double V, double W);
-	void velNodoIzquierdo(double g[19], double f[19], double U, double V, double W);
-	void velNodoDerecho(double g[19], double f[19], double U, double V, double W);
+	void velNodoSuperior(float *cells, int current, int other, int X, int Y, int Z, int i, int j, int k, float U, float V, float W);
+	void velNodoInferior(float *cells, int current, int other, int X, int Y, int Z, int i, int j, int k, float U, float V, float W);
+	void velNodoIzquierdo(float g[19], float f[19], float U, float V, float W);
+	void velNodoDerecho(float g[19], float f[19], float U, float V, float W);
 
 #endif
