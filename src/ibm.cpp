@@ -11,12 +11,12 @@ using namespace std;
 
 /**
 *	Función phi_2 para calcular función delta de Dirac con soporte de dos nodos
-*	@param double r, Distancia entre nodos (Lagrangiana - Euleriana)
+*	@param float r, Distancia entre nodos (Lagrangiana - Euleriana)
 *   @return d, ponderación para distancia
 */
-double phi_2(double r)
+float phi_2(float r)
 {
-	double phi = 0.0;
+	float phi = 0.0;
 	if ((0.0 <= fabs(r)) &&  (fabs(r)<= 1.0))
         phi = (1.0-fabs(r));
     if ( 1.0 <= fabs(r))
@@ -26,12 +26,12 @@ double phi_2(double r)
 
 /**
 *	Función phi_3 para calcular función delta de Dirac con soporte cuatro
-*	@param double r, Distancia entre nodos (Lagrangiana - Euleriana)
-*   @return double d, ponderación para distancia 700,  10100
+*	@param float r, Distancia entre nodos (Lagrangiana - Euleriana)
+*   @return float d, ponderación para distancia 700,  10100
 */
-double phi_3(double r)
+float phi_3(float r)
 {
-	double phi = 0.0;
+	float phi = 0.0;
 	if((0.0 <= fabs(r)) && ( fabs(r) <= (1./2.)))
         phi = ((1./3.)*(1.0+sqrt(1.0-3.0*r*r)));
     if(((1./2.) <= fabs(r))&&(fabs(r) <= (3./2.)))
@@ -43,12 +43,12 @@ double phi_3(double r)
 
 /**
 *	Función phi_4 para calcular función delta de Dirac con soporte cuatro
-*	@param double r, Distancia entre nodos (Lagrangiana - Euleriana)
+*	@param float r, Distancia entre nodos (Lagrangiana - Euleriana)
 *   @return d, ponderación para distancia
 */
-double phi_4(double r)
+float phi_4(float r)
 {
-	double phi = 0.0;
+	float phi = 0.0;
 	if((0.0 <= fabs(r)) && (fabs(r) <= 1.0))
         phi = ((1./8.)*(3.0-(2.0*fabs(r))+sqrt(1.0+(4.0*fabs(r))-(4.0*r*r))));
     if((1.0 <= fabs(r)) && (fabs(r) <= 2.0))
@@ -63,9 +63,9 @@ double phi_4(double r)
 *	@param x, Vector distancia entre nodos (Lagrangiana - Euleriana)
 *   @return d, ponderación por distancia
 */
-double dirac_2(double *x)
+float dirac_2(float *x)
 {
-    double d = phi_2(x[0])*phi_2(x[1])*phi_2(x[2]);
+    float d = phi_2(x[0])*phi_2(x[1])*phi_2(x[2]);
     return d;
 }
 
@@ -74,9 +74,9 @@ double dirac_2(double *x)
 *	@param x, Vector distancia entre nodos (Lagrangiana - Euleriana)
 *   @return d, ponderación por distancia
 */
-double dirac_3(double *x)
+float dirac_3(float *x)
 {
-    double d = phi_3(x[0])*phi_3(x[1])*phi_3(x[2]);
+    float d = phi_3(x[0])*phi_3(x[1])*phi_3(x[2]);
     return d;
 }
 
@@ -85,9 +85,9 @@ double dirac_3(double *x)
 *	@param x, Vector distancia entre nodos (Lagrangiana - Euleriana)
 *   @return d, ponderación por distancia
 */
-double dirac_4(double *x)
+float dirac_4(float *x)
 {
-    double d = phi_4(x[0])*phi_4(x[1])*phi_4(x[2]);
+    float d = phi_4(x[0])*phi_4(x[1])*phi_4(x[2]);
     return d;
 }
 
@@ -98,8 +98,8 @@ double dirac_4(double *x)
 void spread(fluid fluido, mesh membrana, int x, int y, int z)
 {
 	// Recorrer todos los nodos del fluido
-	double pos[3]={0.0,0.0,0.0}, distancia[3]={0.0,0.0,0.0}, delta, df[3]={0.0,0.0,0.0}, fNodo[3]={0.0,0.0,0.0};
-	double a, A, b, B, c, C;
+	float pos[3]={0.0,0.0,0.0}, distancia[3]={0.0,0.0,0.0}, delta, df[3]={0.0,0.0,0.0}, fNodo[3]={0.0,0.0,0.0};
+	float a, A, b, B, c, C;
 	int nodos = membrana.darNumeroNodos();
 	for(int u=0;u<nodos;u++)
 	{
@@ -137,7 +137,7 @@ void spread(fluid fluido, mesh membrana, int x, int y, int z)
 void interpolation(fluid fluido, mesh membrana, int x, int y, int z)
 {
 	//Recorrer todos los nodos de la malla
-	double pos[3], distancia[3], delta, a, A, b, B, c, C, ux=0.0, uy=0.0, uz=0.0;
+	float pos[3], distancia[3], delta, a, A, b, B, c, C, ux=0.0, uy=0.0, uz=0.0;
 	int nNodos = membrana.darNumeroNodos();
 	for(int u=0;u<nNodos;u++)
 	{

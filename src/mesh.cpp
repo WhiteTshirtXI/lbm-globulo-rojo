@@ -9,22 +9,22 @@
 // Constructor
 mesh::mesh()
 {
-	double t = (1.+sqrt(5.))/2.;
-	double tau = t/sqrt(1.+t*t);
-   double one = 1./sqrt(1.+t*t); // Unit sphere
+	float t = (1.+sqrt(5.))/2.;
+	float tau = t/sqrt(1.+t*t);
+   float one = 1./sqrt(1.+t*t); // Unit sphere
 
    // Twelve vertices of icosahedron on unit sphere
    // Creacion dinamica de arreglos al apuntador
    // Apuntadores a filas
    nNodos = 12;
-   vertex = new double*[12];
+   vertex = new float*[12];
 
    // Apuntadores a columnas
    for(int i = 0; i<12 ; i++){
-   	vertex[i] = new double[3];
+   	vertex[i] = new float[3];
    }
 
-	double nodos[12][3] ={{  tau,  one,    0},
+	float nodos[12][3] ={{  tau,  one,    0},
                      { -tau,  one,    0 },
                      { -tau, -one,    0 },
                      {  tau, -one,    0 },
@@ -84,7 +84,7 @@ mesh::~mesh()
 }
 
 // Trasladar en el espacio el centro de la esfera
-void mesh::moverCentro(double x, double y, double z)
+void mesh::moverCentro(float x, float y, float z)
 {
 	cX = x;
 	cY = y;
@@ -99,21 +99,21 @@ void mesh::moverCentro(double x, double y, double z)
 
 // Rotar la estructura completa dados tres angulos
 // theta, phi, psi
-void mesh::rotarEstructura(double alpha, double phi, double theta)
+void mesh::rotarEstructura(float alpha, float phi, float theta)
 {
-	double Rx[3][3] = {{1,          0,          0},
+	float Rx[3][3] = {{1,          0,          0},
 			  {0, cos(alpha), -sin(alpha)},
 			  {0, sin(alpha),  cos(alpha)}};
 
-	double Ry[3][3] = {{ cos(phi), 0, sin(phi)},
+	float Ry[3][3] = {{ cos(phi), 0, sin(phi)},
 			  {        0, 1,        0},
 			  {-sin(phi), 0, cos(phi)}};
 
-        double Rz[3][3] = {{cos(theta), -sin(theta),0},
+        float Rz[3][3] = {{cos(theta), -sin(theta),0},
 			  {sin(theta), cos(theta), 0},
 			  {0, 0, 1}};
-	double Rxy[3][3];
-	double Rxyz[3][3];
+	float Rxy[3][3];
+	float Rxyz[3][3];
 
 	// Realizar composición de rotaciones
 	/* Realiza el producto de matrices y guarda el resultado en una tercera matriz*/
@@ -138,9 +138,9 @@ void mesh::rotarEstructura(double alpha, double phi, double theta)
 	  // Rotar cada uno de los nodos por la matriz
 	  for(int i = 0; i<nNodos ; i++)
 	  {
-	  	double x = Rxyz[0][0]*vertex[i][0] + Rxyz[0][1]*vertex[i][1] + Rxyz[0][2]*vertex[i][2];
-	  	double y = Rxyz[1][0]*vertex[i][0] + Rxyz[1][1]*vertex[i][1] + Rxyz[1][2]*vertex[i][2];
-	  	double z = Rxyz[2][0]*vertex[i][0] + Rxyz[2][1]*vertex[i][1] + Rxyz[2][2]*vertex[i][2];
+	  	float x = Rxyz[0][0]*vertex[i][0] + Rxyz[0][1]*vertex[i][1] + Rxyz[0][2]*vertex[i][2];
+	  	float y = Rxyz[1][0]*vertex[i][0] + Rxyz[1][1]*vertex[i][1] + Rxyz[1][2]*vertex[i][2];
+	  	float z = Rxyz[2][0]*vertex[i][0] + Rxyz[2][1]*vertex[i][1] + Rxyz[2][2]*vertex[i][2];
 	  	vertex[i][0] = x;
 	  	vertex[i][1] = y;
 	  	vertex[i][2] = z;
@@ -150,30 +150,30 @@ void mesh::rotarEstructura(double alpha, double phi, double theta)
 
 
 // Proyectar los nodos a una superficie RCB
-void mesh::proyectarRBC(double r)
+void mesh::proyectarRBC(float r)
 {
 
-		double c0 = 0.207;
-        double c1 = 2.000;
-        double c2 = -1.123;
-        double R  = r;
+		float c0 = 0.207;
+        float c1 = 2.000;
+        float c2 = -1.123;
+        float R  = r;
 
         for(int i = 0;i<nNodos;i++)
         {
-		double X = vertex[i][0];
-		double Y = vertex[i][1];
-		double a = ((X*X)+(Y*Y))/(R*R);
-		double b = (c0 + c1*a + c2*(a*a));
-		double Z = (0.5*R*(sqrt(fabs(1.0-a))))*b;
+		float X = vertex[i][0];
+		float Y = vertex[i][1];
+		float a = ((X*X)+(Y*Y))/(R*R);
+		float b = (c0 + c1*a + c2*(a*a));
+		float Z = (0.5*R*(sqrt(fabs(1.0-a))))*b;
 		vertex[i][0]=X;
 		vertex[i][1]=Y;
 
 		// Calcular magnitud del vector
-		double x, y, z;
+		float x, y, z;
 		x = vertex[i][0]*vertex[i][0];
 		y = vertex[i][1]*vertex[i][1];
 		z = vertex[i][2]*vertex[i][2];
-		double mag = sqrt(x+y+z);
+		float mag = sqrt(x+y+z);
 		if(vertex[i][2]/mag<0){
 			vertex[i][2]=-Z;// + (X*X)/16;
 		}else{
@@ -184,15 +184,15 @@ void mesh::proyectarRBC(double r)
 
 
 // Proyectar los nodos a una superficie esferica
-void mesh::proyectarEsfera(double r)
+void mesh::proyectarEsfera(float r)
 {
 	for(int i=0; i<nNodos;i++)
 	{
-		double x, y, z;
+		float x, y, z;
 		x = vertex[i][0]*vertex[i][0];
 		y = vertex[i][1]*vertex[i][1];
 		z = vertex[i][2]*vertex[i][2];
-		double mag= sqrt(x+y+z);
+		float mag= sqrt(x+y+z);
 		vertex[i][0] = vertex[i][0]*r/mag;
 		vertex[i][1] = vertex[i][1]*r/mag;
 		vertex[i][2] = vertex[i][2]*r/mag;
@@ -200,15 +200,15 @@ void mesh::proyectarEsfera(double r)
 }
 
 // Proyectar los nodos a una superficie
-void mesh::proyectarElipsoide(double a, double b, double c)
+void mesh::proyectarElipsoide(float a, float b, float c)
 {
 	for(int i=0; i<nNodos;i++)
 	{
-		double x, y, z;
+		float x, y, z;
 		x = vertex[i][0]*vertex[i][0];
 		y = vertex[i][1]*vertex[i][1];
 		z = vertex[i][2]*vertex[i][2];
-		double mag= sqrt(x+y+z);
+		float mag= sqrt(x+y+z);
 		vertex[i][0] = vertex[i][0]*a/mag;
 		vertex[i][1] = vertex[i][1]*b/mag;
 		vertex[i][2] = vertex[i][2]*c/mag;
@@ -218,12 +218,12 @@ void mesh::proyectarElipsoide(double a, double b, double c)
 
 // Funcion que agrega un nodo a la lista de nodos de la malla
 // Retorna la posicion del nuevo nodo
-int mesh::agregarNodo(double x, double y, double z)
+int mesh::agregarNodo(float x, float y, float z)
 {
-	double **nuevaLista = new double*[nNodos+1];
+	float **nuevaLista = new float*[nNodos+1];
 	for(int i=0; i<nNodos+1; i++)
 	{
-		nuevaLista[i]=new double[3];
+		nuevaLista[i]=new float[3];
 	}
 	for(int i=0; i<nNodos; i++)
 	{
@@ -242,7 +242,7 @@ int mesh::agregarNodo(double x, double y, double z)
 // Funcion que determina si un nodo existe en la lista
 // retorna -1 si no existe
 // retorna  N si existe
-int mesh::existeNodo(double x, double y, double z)
+int mesh::existeNodo(float x, float y, float z)
 {
 	int existe = -1;
 	for(int i=0;i<nNodos;i++)
@@ -298,7 +298,7 @@ void mesh::mesh_refine_tri4()
 		NC = faces[f][2];
 
 		// Encontrar las coordenadas de cada vertice
-		double A[3], B[3], C[3];
+		float A[3], B[3], C[3];
 		A[0]=vertex[NA][0];
 		A[1]=vertex[NA][1];
 		A[2]=vertex[NA][2];
@@ -312,7 +312,7 @@ void mesh::mesh_refine_tri4()
 		C[2]=vertex[NC][2];
 
 		// Hallar los puntos medios de cada coordenada
-		double a[3], b[3], c[3];
+		float a[3], b[3], c[3];
 		a[0] = (A[0]+B[0])/2.;
 		a[1] = (A[1]+B[1])/2.;
 		a[2] = (A[2]+B[2])/2.;
@@ -358,7 +358,7 @@ void mesh::mesh_refine_tri4()
 }
 
 // Funcion auxiliar para obtener la posicion de los vertices
-int mesh::posicionNodo(double x, double y, double z)
+int mesh::posicionNodo(float x, float y, float z)
 {
 	//Decidir si existe o no existe en la lista
 	int pos = existeNodo(x,y,z);
@@ -404,7 +404,7 @@ int mesh::guardarVTU(int t)
 	fprintf(archivo, "vtk output\n");
 	fprintf(archivo, "ASCII\n");
 	fprintf(archivo, "DATASET UNSTRUCTURED_GRID\n");
-	fprintf(archivo, "POINTS %i double\n",nNodos);
+	fprintf(archivo, "POINTS %i float\n",nNodos);
 
 	// Escribir coordenadas de cada nodo
 	for(int i = 0; i<nNodos ; i++){
@@ -427,28 +427,28 @@ int mesh::guardarVTU(int t)
 
 	// Escribir velocidad
 	fprintf(archivo,"POINT_DATA %d\n", nNodos);
-	fprintf(archivo,"VECTORS Velocidad double\n");
+	fprintf(archivo,"VECTORS Velocidad float\n");
 	for(int i=0;i<nNodos;i++)
 	{
 		fprintf(archivo, "%f %f %f\n", velocidad[i][0], velocidad[i][1], velocidad[i][2]);
 	}
 
     // Escribir vectores normales por cada nodo
-    fprintf(archivo,"VECTORS Normales double\n");
+    fprintf(archivo,"VECTORS Normales float\n");
     for(int i=0;i<nNodos;i++)
     {
     	fprintf(archivo, "%f %f %f\n", normalesPorNodo[i][0], normalesPorNodo[i][1], normalesPorNodo[i][2]);
     }
 
     // Escribir vectores de fuerza por cada nodo
-    fprintf(archivo,"VECTORS Fuerzas double\n");
+    fprintf(archivo,"VECTORS Fuerzas float\n");
     for(int i=0;i<nNodos;i++)
     {
       	fprintf(archivo, "%f %f %f\n", fuerza[i][0], fuerza[i][1], fuerza[i][2]);
     }
 
     // Escribir valores de curvatura media en cada nodo
-    fprintf(archivo,"SCALARS Curvatura-media double\n");
+    fprintf(archivo,"SCALARS Curvatura-media float\n");
     fprintf(archivo,"LOOKUP_TABLE default\n");
     for(int i=0;i<nNodos;i++)
     {
@@ -456,7 +456,7 @@ int mesh::guardarVTU(int t)
     }
 
     // Escribir valores de curvatura de Gauss en cada nodo
-    fprintf(archivo,"SCALARS Curvatura-Gauss double\n");
+    fprintf(archivo,"SCALARS Curvatura-Gauss float\n");
     fprintf(archivo,"LOOKUP_TABLE default\n");
     for(int i=0;i<nNodos;i++)
     {
@@ -464,7 +464,7 @@ int mesh::guardarVTU(int t)
     }
 
     // Escribir valores de curvatura de Gauss en cada nodo
-    fprintf(archivo,"SCALARS k1 double\n");
+    fprintf(archivo,"SCALARS k1 float\n");
     fprintf(archivo,"LOOKUP_TABLE default\n");
     for(int i=0;i<nNodos;i++)
     {
@@ -472,7 +472,7 @@ int mesh::guardarVTU(int t)
     }
 
     // Escribir valores de curvatura de Gauss en cada nodo
-    fprintf(archivo,"SCALARS k2 double\n");
+    fprintf(archivo,"SCALARS k2 float\n");
     fprintf(archivo,"LOOKUP_TABLE default\n");
     for(int i=0;i<nNodos;i++)
     {
@@ -480,7 +480,7 @@ int mesh::guardarVTU(int t)
     }
 
     // Escribir los valores del operador Laplace en la curvatura media
-    fprintf(archivo,"SCALARS OLB-Kh double\n");
+    fprintf(archivo,"SCALARS OLB-Kh float\n");
     fprintf(archivo,"LOOKUP_TABLE default\n");
     for(int i=0;i<nNodos;i++)
     {
@@ -500,19 +500,19 @@ void mesh::iniciarGeometria()
 	volumenE = calcularVolumen();
 
 	// 3. Inicia la estructura de normales sobre cada cara
-	normalesPorCara = new double*[nCeldas];
+	normalesPorCara = new float*[nCeldas];
 	for(int i = 0 ; i<nCeldas ; i++)
 	{
-		normalesPorCara[i] = new double[3];
+		normalesPorCara[i] = new float[3];
 		darNormalCara(i,normalesPorCara[i]);
 	}
 
 
 	// 4. Construye la estructura de caras por Nodo
-	carasPorNodo = new double*[nNodos];
+	carasPorNodo = new float*[nNodos];
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		carasPorNodo[i] = new double[7];
+		carasPorNodo[i] = new float[7];
 	}
 
 	// Construir la estructura que contiene las caras que comparten cada nodo
@@ -539,24 +539,24 @@ void mesh::iniciarGeometria()
 	}
 
 	// 5. Iniciar vectores normales por cada nodo como el promedio de caras
-	normalesPorNodo = new double*[nNodos];
+	normalesPorNodo = new float*[nNodos];
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		normalesPorNodo[i] = new double[3];
+		normalesPorNodo[i] = new float[3];
 		darNormalPromedio(i,normalesPorNodo[i]);
 	}
 
 	// 6. Inicia la estructura de angulos sobre cada nodo
-	angulosPorNodo = new double*[nNodos];
+	angulosPorNodo = new float*[nNodos];
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		angulosPorNodo[i] = new double[7];
+		angulosPorNodo[i] = new float[7];
 		calcularAngulosPorNodo(i, angulosPorNodo[i]);
 	}
 
 	// 9. 10. Inicia la estructura de valores para Laplace beltrami sobre cada nodo
-	laplaceKg = new double[nNodos];
-	laplaceKh = new double[nNodos];
+	laplaceKg = new float[nNodos];
+	laplaceKh = new float[nNodos];
 	for(int i = 0; i < nNodos ; i++)
 	{
 		laplaceKg[i] = darLaplaceKg(i);
@@ -564,32 +564,32 @@ void mesh::iniciarGeometria()
 	}
 
 	// 11. Iniciar la fuerza en cada nodo
-	fuerza = new double*[nNodos];
+	fuerza = new float*[nNodos];
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		fuerza[i] = new double[3];
+		fuerza[i] = new float[3];
 		fuerza[i][0] = 0.0;
 		fuerza[i][1] = 0.0;
 		fuerza[i][2] = 0.0;
 	}
 
 	// 12. Iniciar la velocidad en cada nodo
-	velocidad = new double*[nNodos];
-	velocidad2 = new double*[nNodos];
+	velocidad = new float*[nNodos];
+	velocidad2 = new float*[nNodos];
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		velocidad[i] = new double[3];
+		velocidad[i] = new float[3];
 		velocidad[i][0] = 0.0;
 		velocidad[i][1] = 0.0;
 		velocidad[i][2] = 0.0;
-		velocidad2[i] = new double[3];
+		velocidad2[i] = new float[3];
 		velocidad2[i][0] = 0.0;
 		velocidad2[i][1] = 0.0;
 		velocidad2[i][2] = 0.0;
 	}
 
 	// Iniciar la estructura para cambio de nodo
-	area = new double[nCeldas];
+	area = new float[nCeldas];
 
 	// Encontrar los nodos problema 5 caras
 	encontrarNodosProblema();
@@ -597,12 +597,12 @@ void mesh::iniciarGeometria()
 
 
 // Retorna el valor de Laplace por cada nodo
-double mesh::darLaplaceKg(int nodo)
+float mesh::darLaplaceKg(int nodo)
 {
 	// Implementar operador laplaciano
 	//1. Encontrar todos los vecinos del nodo
 	int vecinos[7];
-	double laplace=0.0;
+	float laplace=0.0;
 	darNodosVecinos(nodo, vecinos);
 	// 2. Por cada vecino encontrar las dos caras
 	for(int i = 1; i<=vecinos[0];i++)
@@ -644,10 +644,10 @@ double mesh::darLaplaceKg(int nodo)
 		}
 
 		// Encuentra posiciones y curvaturas en los nodos nodo, pj, pj1 y pj2
-		double posNodo[3], posPj[3], posPj1[3], posPj2[3];
-		double kgNodo, kgPj;
-		double pj1j[3], pj2j[3], pjnodo[3],fji;
-		double d1, d2, d3;
+		float posNodo[3], posPj[3], posPj1[3], posPj2[3];
+		float kgNodo, kgPj;
+		float pj1j[3], pj2j[3], pjnodo[3],fji;
+		float d1, d2, d3;
 
 		darPosNodo(nodo, posNodo);
 		darPosNodo(pj, posPj);
@@ -671,12 +671,12 @@ double mesh::darLaplaceKg(int nodo)
 }
 
 // Retorna el valor de Laplace por cada nodo
-double mesh::darLaplaceKh(int nodo)
+float mesh::darLaplaceKh(int nodo)
 {
 	// Implementar operador laplaciano
 	//1. Encontrar todos los vecinos del nodo
 	int vecinos[7];
-	double laplace=0.0;
+	float laplace=0.0;
 	darNodosVecinos(nodo, vecinos);
 	// 2. Por cada vecino encontrar las dos caras
 	if(~(carasPorNodo[nodo][0]<6))
@@ -720,10 +720,10 @@ double mesh::darLaplaceKh(int nodo)
 			}
 
 			// Encuentra posiciones y curvaturas en los nodos nodo, pj, pj1 y pj2
-			double posNodo[3], posPj[3], posPj1[3], posPj2[3];
-			double khNodo, khPj;
-			double pj1j[3], pj2j[3], pjnodo[3],fji;
-			double d1, d2, d3;
+			float posNodo[3], posPj[3], posPj1[3], posPj2[3];
+			float khNodo, khPj;
+			float pj1j[3], pj2j[3], pjnodo[3],fji;
+			float d1, d2, d3;
 
 			darPosNodo(nodo, posNodo);
 			darPosNodo(pj, posPj);
@@ -751,7 +751,7 @@ double mesh::darLaplaceKh(int nodo)
 			fji = khPj - khNodo;
 			laplace += ((d1+d2)*fji)/(2.0*d3);
 		}
-		double areaB = darAreaAlrededorPorNodo(nodo);
+		float areaB = darAreaAlrededorPorNodo(nodo);
 		laplace = laplace/areaB;
 	}else
 	{
@@ -761,10 +761,10 @@ double mesh::darLaplaceKh(int nodo)
 }
 
 // Dar Kg como el promedio de los nodos vecinos
-double mesh::darKgPromedioPorNodo(int nodo)
+float mesh::darKgPromedioPorNodo(int nodo)
 {
 	int vecinos[7];
-	double kg = 0.0;
+	float kg = 0.0;
 	darNodosVecinos(nodo, vecinos);
 	for(int i=1;i<vecinos[0];i++)
 	{
@@ -774,10 +774,10 @@ double mesh::darKgPromedioPorNodo(int nodo)
 }
 
 // Dar Kh como el promedio de los nodos vecinos
-double mesh::darKhPromedioPorNodo(int nodo)
+float mesh::darKhPromedioPorNodo(int nodo)
 {
 	int vecinos[7];
-	double kh = 0.0;
+	float kh = 0.0;
 	darNodosVecinos(nodo, vecinos);
 	for(int i=1;i<=vecinos[0];i++)
 	{
@@ -787,10 +787,10 @@ double mesh::darKhPromedioPorNodo(int nodo)
 }
 
 // Dar Kh como el promedio de los nodos vecinos
-double mesh::darLaplaceKgPromedioPorNodo(int nodo)
+float mesh::darLaplaceKgPromedioPorNodo(int nodo)
 {
 	int vecinos[7];
-	double lkg = 0.0;
+	float lkg = 0.0;
 	darNodosVecinos(nodo, vecinos);
 	for(int i=1;i<=vecinos[0];i++)
 	{
@@ -800,10 +800,10 @@ double mesh::darLaplaceKgPromedioPorNodo(int nodo)
 }
 
 // Dar Kh como el promedio de los nodos vecinos
-double mesh::darLaplaceKhPromedioPorNodo(int nodo)
+float mesh::darLaplaceKhPromedioPorNodo(int nodo)
 {
 	int vecinos[7];
-	double lkh = 0.0;
+	float lkh = 0.0;
 	darNodosVecinos(nodo, vecinos);
 	for(int i=1;i<=vecinos[0];i++)
 	{
@@ -814,47 +814,47 @@ double mesh::darLaplaceKhPromedioPorNodo(int nodo)
 
 
 // Retorna la curvatura Gaussiana por cada nodo
-double mesh::darKgPorNodo(int nodo)
+float mesh::darKgPorNodo(int nodo)
 {
-	double angulos[7];
-	double gauss = 0.0;
-	double area = darAreaVoronoiPorNodo(nodo);
-	double ang = calcularAngulosPorNodo(nodo, angulos);
+	float angulos[7];
+	float gauss = 0.0;
+	float area = darAreaVoronoiPorNodo(nodo);
+	float ang = calcularAngulosPorNodo(nodo, angulos);
 	gauss = ang/area;
 	return gauss;
 }
 
 // Retorna la curvatura media por cada nodo
-double mesh::darKhPorNodo(int nodo)
+float mesh::darKhPorNodo(int nodo)
 {
 
-	double kh=0;
+	float kh=0;
 	if(carasPorNodo[nodo][0]<6)
 	{
 		kh = darKhPromedioPorNodo(nodo);
 	}else{
-	double K[3] = {0.0,0.0,0.0}; // Mean curvature normal operator
+	float K[3] = {0.0,0.0,0.0}; // Mean curvature normal operator
 	int vecinos[7];
-	double xi[3];
+	float xi[3];
 	darPosNodo(nodo, xi);
 	darNodosVecinos(nodo, vecinos);
 	// Por cada nodo vecino debe encontrar la suma de la cotangente y las direcciones
 	for(int i=1; i<=vecinos[0];i++)
 	{
-		double xj[3], d[3];
+		float xj[3], d[3];
 		darPosNodo(vecinos[i], xj);
 		d[0] = xi[0] - xj[0];
 		d[1] = xi[1] - xj[1];
 		d[2] = xi[2] - xj[2];
-		double magd = norm(d);
-		double sumCot = darAreaVoronoiParcial(nodo, vecinos[i]);
+		float magd = norm(d);
+		float sumCot = darAreaVoronoiParcial(nodo, vecinos[i]);
 		// Multiplicar por ocho para ajustar la suma completa
 		K[0] += (sumCot*(d[0])*(8.0))/pow(magd,2);
 		K[1] += (sumCot*(d[1])*(8.0))/pow(magd,2);
 		K[2] += (sumCot*(d[2])*(8.0))/pow(magd,2);
 	}
 
-	double areaM = darAreaVoronoiPorNodo(nodo);
+	float areaM = darAreaVoronoiPorNodo(nodo);
 
 	// Calcular la magnitud del operador K
 	kh = sqrt(pow(K[0],2) + pow(K[1],2) + pow(K[2],2));
@@ -868,12 +868,12 @@ double mesh::darKhPorNodo(int nodo)
 }
 
 // Retorna la suma de los angulos formados por las caras alrededor del nodo i
-double mesh::calcularAngulosPorNodo(int nodo, double angulos[7])
+float mesh::calcularAngulosPorNodo(int nodo, float angulos[7])
 {
 	// Obtiene la cantidad de caras que comparten el nodo
 	int numeroCaras = carasPorNodo[nodo][0];
-	double sumTheta_i = 0.0;
-	double pi[3];
+	float sumTheta_i = 0.0;
+	float pi[3];
 	darPosNodo(nodo, pi);
 
 	for(int i = 1; i<=numeroCaras; i++)
@@ -887,8 +887,8 @@ double mesh::calcularAngulosPorNodo(int nodo, double angulos[7])
 		n3 = faces[nCara][2];
 
 		// Calcular el angulo de la i-esima cara
-		double pA[3];
-		double pB[3];
+		float pA[3];
+		float pB[3];
 
 		// Casos dependiendo cual sea el vertice que se repite
 		if(n1==nodo)
@@ -910,7 +910,7 @@ double mesh::calcularAngulosPorNodo(int nodo, double angulos[7])
 		}
 
 		// Construir los vectores desde i hasta los demas puntos de la cara
-		double vec1[3], vec2[3];
+		float vec1[3], vec2[3];
 		vec1[0] = pA[0] - pi[0];
 		vec1[1] = pA[1] - pi[1];
 		vec1[2] = pA[2] - pi[2];
@@ -920,25 +920,25 @@ double mesh::calcularAngulosPorNodo(int nodo, double angulos[7])
 		vec2[2] = pB[2] - pi[2];
 
 		// Realizar producto interior entre vec1 y vec2
-		double AdotB = (vec1[0]*vec2[0]) + (vec1[1]*vec2[1]) + (vec1[2]*vec2[2]);
-		double magA = sqrt((vec1[0]*vec1[0]) + (vec1[1]*vec1[1]) + (vec1[2]*vec1[2]));
-		double magB = sqrt((vec2[0]*vec2[0]) + (vec2[1]*vec2[1]) + (vec2[2]*vec2[2]));
-		double theta_i = acos(AdotB/(magA*magB));
+		float AdotB = (vec1[0]*vec2[0]) + (vec1[1]*vec2[1]) + (vec1[2]*vec2[2]);
+		float magA = sqrt((vec1[0]*vec1[0]) + (vec1[1]*vec1[1]) + (vec1[2]*vec1[2]));
+		float magB = sqrt((vec2[0]*vec2[0]) + (vec2[1]*vec2[1]) + (vec2[2]*vec2[2]));
+		float theta_i = acos(AdotB/(magA*magB));
 		angulos[i] = theta_i;
 		sumTheta_i += theta_i;
 	}
 	// Indica cuantos ángulos estan formados alrededor del nodo i
 	angulos[0] = numeroCaras;
-	double retorno = ((2*3.141617) - sumTheta_i);
+	float retorno = ((2*3.141617) - sumTheta_i);
 	return retorno;
 }
 
 
 // Encuentra el area de voronoi parcial utilizando dos nodos
 // Retorna (1/8) de la suma de cotangentes
-double mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
+float mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 {
-	double area= 0.0;
+	float area= 0.0;
 	int caras[2];
 	darCarasSegunDosNodos(nodoA, nodoB, caras);
 
@@ -956,7 +956,7 @@ double mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 	}
 
 	// Trazar los vectores entre nodos A, B y C
-	double vec1[3], vec2[3], vec3[3];
+	float vec1[3], vec2[3], vec3[3];
 
 	vec1[0] = vertex[nodoC][0] - vertex[nodoB][0];
 	vec1[1] = vertex[nodoC][1] - vertex[nodoB][1];
@@ -966,15 +966,15 @@ double mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 	vec2[1] = vertex[nodoC][1] - vertex[nodoA][1];
 	vec2[2] = vertex[nodoC][2] - vertex[nodoA][2];
 
-	double beta = 0.0;
-	double alpha = 0.0;
-	double mag1, mag2, mag3;
+	float beta = 0.0;
+	float alpha = 0.0;
+	float mag1, mag2, mag3;
 
 
 	// Producto punto entre los vectores
 	mag1 = sqrt(pow(vec1[0],2) + pow(vec1[1],2) + pow(vec1[2],2));
 	mag2 = sqrt(pow(vec2[0],2) + pow(vec2[1],2) + pow(vec2[2],2));
-	double v1Dotv2 = (vec1[0]*vec2[0]) + (vec1[1]*vec2[1]) + (vec1[2]*vec2[2]);
+	float v1Dotv2 = (vec1[0]*vec2[0]) + (vec1[1]*vec2[1]) + (vec1[2]*vec2[2]);
 
 	//Producto cross entre los vectores
 	cross(vec1, vec2, vec3[0],vec3[1],vec3[2] );
@@ -1012,20 +1012,20 @@ double mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 	alpha = atan2(mag3, v1Dotv2);
 	//alpha = acos((v1Dotv2)/(mag1*mag2));
 
-	double d[3];
+	float d[3];
 	d[0] = vertex[nodoA][0] - vertex[nodoB][0];
 	d[1] = vertex[nodoA][1] - vertex[nodoB][1];
 	d[2] = vertex[nodoA][2] - vertex[nodoB][2];
 
-	double magd = 0.0;
+	float magd = 0.0;
 	magd = sqrt((pow(d[0],2) + pow(d[1],2) + pow(d[2],2)));
 	area = (1./8.)*(pow(magd,2))*((1./tan(alpha)) + (1./tan(beta)));
 	return area;
 }
 
-double mesh::darAreaVoronoiPorNodo(int nodo)
+float mesh::darAreaVoronoiPorNodo(int nodo)
 {
-	double area = 0.0;
+	float area = 0.0;
 	// Encontrar los J nodos que rodean al nodo i
 	int vecinos[7];
 	darNodosVecinos(nodo, vecinos);
@@ -1074,10 +1074,10 @@ void mesh::darCarasSegunDosNodos(int nodoA, int nodoB, int caras[2])
 
 
 // Retorna el area alrededor de un nodo utilizando el baricentro de cada cara
-double mesh::darAreaBaricentricaPorNodo(int nodo)
+float mesh::darAreaBaricentricaPorNodo(int nodo)
 {
 	int caras = carasPorNodo[nodo][0];
-	double area = 0.0;
+	float area = 0.0;
 	// Sumar el area de todas las caras y dividirlo por 3
 	for(int i = 1; i <= caras; i++)
 	{
@@ -1146,13 +1146,13 @@ void mesh::darNodosVecinos(int nodo, int vecinos[7])
 }
 
 // Entrega el vector normal dado un nodo i
-void mesh::darNormalPromedio(int nodo, double normal[3])
+void mesh::darNormalPromedio(int nodo, float normal[3])
 {
 	// Encuentra el numero de caras que comparten el nodo
 	int numeroCaras = carasPorNodo[nodo][0];
-	double pX = 0.0;
-	double pY = 0.0;
-	double pZ = 0.0;
+	float pX = 0.0;
+	float pY = 0.0;
+	float pZ = 0.0;
 	int nCara = 0;
 	for(int c = 1 ; c<=numeroCaras ; c++)
 	{
@@ -1178,10 +1178,10 @@ bool mesh::contieneNodo(int nodo, int cara)
 	return flag;
 }
 
-void mesh::darNormalCara(int j, double normal[3]){
+void mesh::darNormalCara(int j, float normal[3]){
 
 	// Encontrar los tres nodos que componen la cara
-	double nodoA[3], nodoB[3], nodoC[3], a[3], b[3];
+	float nodoA[3], nodoB[3], nodoC[3], a[3], b[3];
 	darPosNodo(faces[j][0], nodoA);
 	darPosNodo(faces[j][1], nodoB);
 	darPosNodo(faces[j][2], nodoC);
@@ -1202,7 +1202,7 @@ void mesh::darNormalCara(int j, double normal[3]){
 	normal[2] = a[0]*b[1] - b[0]*a[1];
 
 	// Entrega el vector normalizado
-	double mag = sqrt(pow(normal[0],2) + pow(normal[1],2)+ pow(normal[2],2));
+	float mag = sqrt(pow(normal[0],2) + pow(normal[1],2)+ pow(normal[2],2));
 	normal[0] = (normal[0]/mag)*(-1);
 	normal[1] = (normal[1]/mag)*(-1);
 	normal[2] = (normal[2]/mag)*(-1);
@@ -1221,7 +1221,7 @@ void mesh::actualizarGeometria()
 	}
 }
 
-void mesh::setVelocidad(int n, double ux, double uy, double uz)
+void mesh::setVelocidad(int n, float ux, float uy, float uz)
 {
 	velocidad2[n][0] = velocidad[n][0];
 	velocidad2[n][1] = velocidad[n][1];
@@ -1234,14 +1234,14 @@ void mesh::setVelocidad(int n, double ux, double uy, double uz)
 
 
 // Alamacena las tres componentes de laposicion en pos
-void mesh::darPosNodo(int n, double pos[3])
+void mesh::darPosNodo(int n, float pos[3])
 {
 	pos[0] = vertex[n][0];
 	pos[1] = vertex[n][1];
 	pos[2] = vertex[n][2];
 }
 
-void mesh::darFuerzaNodo(int n, double f[3])
+void mesh::darFuerzaNodo(int n, float f[3])
 {
 	f[0] = fuerza[n][0];
 	f[1] = fuerza[n][1];
@@ -1249,7 +1249,7 @@ void mesh::darFuerzaNodo(int n, double f[3])
 }
 
 
-void mesh::moverNodos(double dt, double dx)
+void mesh::moverNodos(float dt, float dx)
 {
 	for(int u=0;u<nNodos;u++)
 	{
@@ -1259,12 +1259,12 @@ void mesh::moverNodos(double dt, double dx)
 	}
 }
 
-void mesh::calcularFuerzasFEM(mesh referencia, double ks)
+void mesh::calcularFuerzasFEM(mesh referencia, float ks)
 {
 	int a,b,c;
-	double va[3], vb[3], vc[3], vA[3], vB[3], vC[3];
+	float va[3], vb[3], vc[3], vA[3], vB[3], vC[3];
 	// Crear estructuras para pasar al algoritmo de fuerzas
-	double ref[3][3], def[3][3], fuerzas[3][3];
+	float ref[3][3], def[3][3], fuerzas[3][3];
 
 	// Obtener indices de los nodos de cada elemento
 	for(int e=0;e<nCeldas;e++)
@@ -1325,11 +1325,11 @@ void mesh::calcularFuerzasFEM(mesh referencia, double ks)
 }
 
 
-void mesh::calcularFuerzasVolumen(double v0, double ka)
+void mesh::calcularFuerzasVolumen(float v0, float ka)
 {
-	double mag = ka*(v0 - calcularVolumen());
+	float mag = ka*(v0 - calcularVolumen());
 
-	double normal[3];
+	float normal[3];
 	for(int i = 0; i < nNodos ; i++)
 	{
 		normal[0] = normalesPorNodo[i][0];
@@ -1340,7 +1340,7 @@ void mesh::calcularFuerzasVolumen(double v0, double ka)
 		fuerza[i][2] = fuerza[i][2]+normal[2]*mag;
 	}
 }
-void mesh::calcularFuerzasHelfrich(double kb)
+void mesh::calcularFuerzasHelfrich(float kb)
 
 {
 	for(int i = 0; i < nNodos; i++)
@@ -1348,11 +1348,11 @@ void mesh::calcularFuerzasHelfrich(double kb)
 		fuerza[i][0] = 0.0;
 		fuerza[i][1] = 0.0;
 		fuerza[i][2] = 0.0;
-		/*double c0 = 1.0e-9;
-		double kh = darKhPorNodo(i);
-		double kg = darKgPorNodo(i);
-		double lkh = darLaplaceKh(i);
-		double mag = 0.0;
+		/*float c0 = 1.0e-9;
+		float kh = darKhPorNodo(i);
+		float kg = darKgPorNodo(i);
+		float lkh = darLaplaceKh(i);
+		float mag = 0.0;
 		mag = (kb*(((2*kh) + c0)*(2*(kh*kh)-(2*kg)-(kh*c0)))) + (2*kb*lkh);
 		fuerza[i][0] = fuerza[i][0]-mag*normalesPorNodo[i][0];
 		fuerza[i][1] = fuerza[i][1]-mag*normalesPorNodo[i][1];
@@ -1365,9 +1365,9 @@ void mesh::calcularFuerzasHelfrich(double kb)
 *   y el centro de la esfera.
 *
 */
-double mesh::darVolumenElemento(int i)
+float mesh::darVolumenElemento(int i)
 {
-	double a[3], b[3], c[3], d[3], v1[3], v2[3], v3[3], temp[3], V;
+	float a[3], b[3], c[3], d[3], v1[3], v2[3], v3[3], temp[3], V;
 	int A, B, C;
 
 	A=faces[i][0];
@@ -1407,7 +1407,7 @@ double mesh::darVolumenElemento(int i)
 	return fabs(V);
 }
 
-double mesh::calcularVolumen()
+float mesh::calcularVolumen()
 
 {
 	volumenE = 0.0;
@@ -1418,9 +1418,9 @@ double mesh::calcularVolumen()
 	return volumenE;
 }
 
-double mesh::darAreaElemento(int i)
+float mesh::darAreaElemento(int i)
 {
-	double a[3], b[3], c[3], v1[3], v2[3], temp[3];
+	float a[3], b[3], c[3], v1[3], v2[3], temp[3];
 	int A, B, C;
 	A=faces[i][0];
 	B=faces[i][1];
@@ -1451,9 +1451,9 @@ double mesh::darAreaElemento(int i)
 }
 
 
-double mesh::calcularAreaSuperficial()
+float mesh::calcularAreaSuperficial()
 {
-	double area = 0.0;
+	float area = 0.0;
 	for(int i = 0 ; i < nCeldas; i++)
 	{
 		area += darAreaElemento(i);
@@ -1472,9 +1472,9 @@ void mesh::calcularCambioArea(mesh ref)
 }
 
 // Calcula la fuerza neta sobre la membrana
-void mesh::calcularFuerzaNeta(double fNeta[3])
+void mesh::calcularFuerzaNeta(float fNeta[3])
 {
-	double fx=0., fy=0., fz=0., fNodo[3] ={0.,0.,0.};
+	float fx=0., fy=0., fz=0., fNodo[3] ={0.,0.,0.};
 	for(int u = 0.0; u < nNodos ; u++)
 	{
 		darFuerzaNodo(u, fNodo);
@@ -1491,19 +1491,19 @@ void mesh::calcularFuerzaNeta(double fNeta[3])
 }
 
 
-double mesh::calcularEnergia()
+float mesh::calcularEnergia()
 {
 	return 0.0;
 }
 
-void mesh::calcularMomentoNeto(double fMomento[3])
+void mesh::calcularMomentoNeto(float fMomento[3])
 {
 
 }
 
-void mesh::actualizarNodos(double **nodos)
+void mesh::actualizarNodos(float **nodos)
 {
-	double x, y, z;
+	float x, y, z;
 	for(int u = 0 ; u< nNodos ; u++)
 	{
 		x = nodos[u][0];
@@ -1545,9 +1545,9 @@ bool mesh::esNodoProblema(int nodo)
 	return flag;
 }
 
-double mesh::darAreaAlrededorPorNodo(int nodo)
+float mesh::darAreaAlrededorPorNodo(int nodo)
 {
-	double area = 0.0;
+	float area = 0.0;
 	for(int i = 1; i <= carasPorNodo[nodo][0]; i++)
 	{
 		area += darAreaElemento(carasPorNodo[nodo][i]);
@@ -1555,16 +1555,16 @@ double mesh::darAreaAlrededorPorNodo(int nodo)
 	return area;
 }
 
-double mesh::darK1PorNodo(int nodo)
+float mesh::darK1PorNodo(int nodo)
 {
-	double kh = darKhPorNodo(nodo);
-	double kg = darKgPorNodo(nodo);
+	float kh = darKhPorNodo(nodo);
+	float kg = darKgPorNodo(nodo);
 	return (kh + sqrt(pow(kh,2) - kg));
 }
 
-double mesh::darK2PorNodo(int nodo)
+float mesh::darK2PorNodo(int nodo)
 {
-	double kh = darKhPorNodo(nodo);
-	double kg = darKgPorNodo(nodo);
+	float kh = darKhPorNodo(nodo);
+	float kg = darKgPorNodo(nodo);
 	return (kh - sqrt(pow(kh,2) - kg));
 }

@@ -12,29 +12,29 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-	double X = 21;
-	double Y = 21;
-	double Z = 21;
+	float X = 21;
+	float Y = 21;
+	float Z = 21;
 
 	mesh membrana, referencia;
 	fluid fluido(X, Y, Z);
 
-	double dt = 1.0;
-	double dx = 1.0;
+	float dt = 1.0;
+	float dx = 1.0;
 
 	int VTK = 50;
 
 	// Parametros adimensionales
-	double rho = 1.0;
-	double nu = 1./6.;
-	double Re = 0.5; 
-	double G = 0.5;
-	double R = Z/5;
-	double gamma_dot = (Re*nu)/(rho*pow(R,2));
-	double ks = (gamma_dot*nu*R)/(G);
-	double kb = ks*1.0e-6;
-	double kp = (gamma_dot)/(G);
-	double STEPS = 12.0/kp;
+	float rho = 1.0;
+	float nu = 1./6.;
+	float Re = 0.5; 
+	float G = 0.5;
+	float R = Z/5;
+	float gamma_dot = (Re*nu)/(rho*pow(R,2));
+	float ks = (gamma_dot*nu*R)/(G);
+	float kb = ks*1.0e-6;
+	float kp = (gamma_dot)/(G);
+	float STEPS = 12.0/kp;
 	printf("A completar %f iteraciones\n", STEPS);
 
 	// Membrana
