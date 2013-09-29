@@ -86,6 +86,17 @@ mesh::mesh()
 mesh::~mesh()
 {
 
+	//TODO frees
+	if (vertex != NULL) free(vertex);
+	if (faces != NULL) free(faces);
+
+	if (normalesPorCara != NULL) free(normalesPorCara);
+	if (carasPorNodo != NULL) free(carasPorNodo);
+	if (normalesPorNodo != NULL) free(normalesPorNodo);
+	if (angulosPorNodo != NULL) free(angulosPorNodo);
+	if (fuerza != NULL) free(fuerza);
+	if (velocidad != NULL) free(velocidad);
+	if (velocidad2 != NULL) free(velocidad2);
 }
 
 // Trasladar en el espacio el centro de la esfera
@@ -239,6 +250,8 @@ int mesh::agregarNodo(float x, float y, float z)
 	ACCESS2(nuevaLista, nNodos+1, 3, nNodos, 1) = y;
 	ACCESS2(nuevaLista, nNodos+1, 3, nNodos, 2) = z;
 
+
+	free(vertex);
 	vertex = nuevaLista;
 
 	nNodos=nNodos+1;
@@ -357,6 +370,7 @@ void mesh::mesh_refine_tri4()
 		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 2) = C4[2];
 	}
 
+	free(faces);
 	faces = nuevaLista;
 
 	nCeldas = 4*nCeldas;
@@ -549,15 +563,20 @@ void mesh::iniciarGeometria()
 	normalesPorNodo = (float*)malloc(nNodos*3*sizeof(float));
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		// TODO change that
-		//darNormalPromedio(i,normalesPorNodo[i]);
+
+		float normales[3];
+
+		darNormalPromedio(i, normales);
+
+		NORMALESPORNODO(i, 0) = normales[0];
+		NORMALESPORNODO(i, 1) = normales[1];
+		NORMALESPORNODO(i, 2) = normales[2];
 	}
 
 	// 6. Inicia la estructura de angulos sobre cada nodo
 	angulosPorNodo = (float*)malloc(nNodos*7*sizeof(float));
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		// TODO change that
 		float angulos[7];
 
 		calcularAngulosPorNodo(i, angulos);
