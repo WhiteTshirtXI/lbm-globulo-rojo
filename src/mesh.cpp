@@ -289,34 +289,31 @@ void mesh::mesh_refine_tri4()
 
 	printf("Refinando...\n");
 	// Crear la estructura para las nuevas celdas
-	int **nuevaLista = new int*[4*nCeldas];
-	for(int i=0; i<nCeldas*4;i++)
-	{
-		nuevaLista[i] = new int[3];
-	}
+
+	int *nuevaLista = (int*)malloc((4*nCeldas)*3*sizeof(int));
 
 	// Dividir todas las caras
-	for(int f=0;f<nCeldas;f++)
+	for(int f = 0; f < nCeldas; f++)
 	{
 		int NA, NB, NC;
 		// Encontrar los vertices correspondientes a cada cara
-		NA = faces[f][0];
-		NB = faces[f][1];
-		NC = faces[f][2];
+		NA = FACES(f, 0);
+		NB = FACES(f, 1);
+		NC = FACES(f, 2);
 
 		// Encontrar las coordenadas de cada vertice
 		float A[3], B[3], C[3];
-		A[0]=vertex[NA][0];
-		A[1]=vertex[NA][1];
-		A[2]=vertex[NA][2];
+		A[0]=VERTEX(NA, 0);
+		A[1]=VERTEX(NA, 1);
+		A[2]=VERTEX(NA, 2);
 
-		B[0]=vertex[NB][0];
-		B[1]=vertex[NB][1];
-		B[2]=vertex[NB][2];
+		B[0]=VERTEX(NB, 0);
+		B[1]=VERTEX(NB, 1);
+		B[2]=VERTEX(NB, 2);
 
-		C[0]=vertex[NC][0];
-		C[1]=vertex[NC][1];
-		C[2]=vertex[NC][2];
+		C[0]=VERTEX(NC, 0);
+		C[1]=VERTEX(NC, 1);
+		C[2]=VERTEX(NC, 2);
 
 		// Hallar los puntos medios de cada coordenada
 		float a[3], b[3], c[3];
@@ -343,24 +340,25 @@ void mesh::mesh_refine_tri4()
 		int C3[3]={Nc, Nb, NC}, C4[3]={Na, Nb, Nc};
 
 		// Agregarlas a la nueva estructura de celdas
-		nuevaLista[(f+1)*4-4][0] = C1[0];
-		nuevaLista[(f+1)*4-4][1] = C1[1];
-		nuevaLista[(f+1)*4-4][2] = C1[2];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-4, 0) = C1[0];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-4, 1) = C1[1];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-4, 2) = C1[2];
 
-		nuevaLista[(f+1)*4-3][0] = C2[0];
-		nuevaLista[(f+1)*4-3][1] = C2[1];
-		nuevaLista[(f+1)*4-3][2] = C2[2];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-3, 0) = C2[0];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-3, 1) = C2[1];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-3, 2) = C2[2];
 
-		nuevaLista[(f+1)*4-2][0] = C3[0];
-		nuevaLista[(f+1)*4-2][1] = C3[1];
-		nuevaLista[(f+1)*4-2][2] = C3[2];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-2, 0) = C3[0];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-2, 1) = C3[1];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-2, 2) = C3[2];
 
-		nuevaLista[(f+1)*4-1][0] = C4[0];
-		nuevaLista[(f+1)*4-1][1] = C4[1];
-		nuevaLista[(f+1)*4-1][2] = C4[2];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 0) = C4[0];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 1) = C4[1];
+		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 2) = C4[2];
 	}
-	delete faces;
+
 	faces = nuevaLista;
+
 	nCeldas = 4*nCeldas;
 }
 
