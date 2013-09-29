@@ -505,20 +505,17 @@ void mesh::iniciarGeometria()
 	volumenE = calcularVolumen();
 
 	// 3. Inicia la estructura de normales sobre cada cara
-	normalesPorCara = new float*[nCeldas];
+	normalesPorCara = (float*)malloc(nCeldas*3*sizeof(float));
 	for(int i = 0 ; i<nCeldas ; i++)
 	{
-		normalesPorCara[i] = new float[3];
-		darNormalCara(i,normalesPorCara[i]);
+		//TODO change that
+		//darNormalCara(i,normalesPorCara[i]);
 	}
 
 
 	// 4. Construye la estructura de caras por Nodo
-	carasPorNodo = new float*[nNodos];
-	for(int i = 0 ; i<nNodos ; i++)
-	{
-		carasPorNodo[i] = new float[7];
-	}
+	carasPorNodo = (float*)malloc(nNodos*7*sizeof(float));
+
 
 	// Construir la estructura que contiene las caras que comparten cada nodo
 	// Recorrer nodos
@@ -532,31 +529,31 @@ void mesh::iniciarGeometria()
 			if(contieneNodo(i,j))
 			{
 				// Agregar la cara a la lista de caras por nodo
-				carasPorNodo[i][seguidor] = j;
+				ACCESS2(carasPorNodo, nNodos, 7, i, seguidor) = j;
 				contador++;
 				seguidor++;
 			}
 		}
 		// Escribe el numero de caras que tiene cada nodo
-		carasPorNodo[i][0]=contador;
+		ACCESS2(carasPorNodo, nNodos, 7, i, 0) = contador;
 		contador = 0;
 		seguidor = 1;
 	}
 
 	// 5. Iniciar vectores normales por cada nodo como el promedio de caras
-	normalesPorNodo = new float*[nNodos];
+	normalesPorNodo = (float*)malloc(nNodos*3*sizeof(float));
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		normalesPorNodo[i] = new float[3];
-		darNormalPromedio(i,normalesPorNodo[i]);
+		// TODO change that
+		//darNormalPromedio(i,normalesPorNodo[i]);
 	}
 
 	// 6. Inicia la estructura de angulos sobre cada nodo
-	angulosPorNodo = new float*[nNodos];
+	angulosPorNodo = (float*)malloc(nNodos*7*sizeof(float));
 	for(int i = 0 ; i<nNodos ; i++)
 	{
-		angulosPorNodo[i] = new float[7];
-		calcularAngulosPorNodo(i, angulosPorNodo[i]);
+		// TODO change that
+		//calcularAngulosPorNodo(i, angulosPorNodo[i]);
 	}
 
 	// 9. 10. Inicia la estructura de valores para Laplace beltrami sobre cada nodo
@@ -569,29 +566,15 @@ void mesh::iniciarGeometria()
 	}
 
 	// 11. Iniciar la fuerza en cada nodo
-	fuerza = new float*[nNodos];
-	for(int i = 0 ; i<nNodos ; i++)
-	{
-		fuerza[i] = new float[3];
-		fuerza[i][0] = 0.0;
-		fuerza[i][1] = 0.0;
-		fuerza[i][2] = 0.0;
-	}
+	fuerza = (float*)malloc(nNodos*3*sizeof(float));
+	memset(fuerza, 0, nNodos*3*sizeof(float));
 
 	// 12. Iniciar la velocidad en cada nodo
-	velocidad = new float*[nNodos];
-	velocidad2 = new float*[nNodos];
-	for(int i = 0 ; i<nNodos ; i++)
-	{
-		velocidad[i] = new float[3];
-		velocidad[i][0] = 0.0;
-		velocidad[i][1] = 0.0;
-		velocidad[i][2] = 0.0;
-		velocidad2[i] = new float[3];
-		velocidad2[i][0] = 0.0;
-		velocidad2[i][1] = 0.0;
-		velocidad2[i][2] = 0.0;
-	}
+	velocidad = (float*)malloc(nNodos*3*sizeof(float));
+	memset(velocidad, 0, nNodos*3*sizeof(float));
+	velocidad2 = (float*)malloc(nNodos*3*sizeof(float));
+	memset(velocidad2, 0, nNodos*3*sizeof(float));
+
 
 	// Iniciar la estructura para cambio de nodo
 	area = new float[nCeldas];
