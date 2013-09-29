@@ -9,17 +9,17 @@ private:
 	int nNodos;
 	int nCeldas;
 	float cX, cY, cZ;
-	float **vertex;
-	float **velocidad;
-	float **velocidad2;
-	float **fuerza;
+	float *vertex;
+	float *velocidad;
+	float *velocidad2;
+	float *fuerza;
 	float *area;
-	int **faces;
-	float **normalesPorNodo;
-	float **normalesPorCara;
-	float **carasPorNodo;
-	float **angulosPorNodo;
-	float **vecinosPorNodo;
+	int *faces;
+	float *normalesPorNodo;
+	float *normalesPorCara;
+	float *carasPorNodo;
+	float *angulosPorNodo;
+	float *vecinosPorNodo;
 	float *laplaceKg;
 	float *laplaceKh;
 	int *nodosProblema;
@@ -29,8 +29,8 @@ private:
 public:
 	void setID(int ID){id=ID;}
 	int getID(){return id;}
-	float** darNodos(){return vertex;}
-	int** darCeldas(){return faces;}
+	float* darNodos(){return vertex;}
+	int* darCeldas(){return faces;}
 	int darNumeroNodos(){return nNodos;}
 	int darNumeroCeldas(){return nCeldas;}
 	int posicionNodo(float x, float y, float z);
