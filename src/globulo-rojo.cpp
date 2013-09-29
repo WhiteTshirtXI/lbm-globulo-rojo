@@ -88,13 +88,13 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//
-		//membrana.moverNodos(dt, dx);
+		membrana.moverNodos(dt, dx);
 
 		// -----------------------------------------------------------------------//
 		// 3. Calcular fuerzas en los nodos de la membrana
 		// -----------------------------------------------------------------------//
-		//membrana.calcularFuerzasHelfrich(kb);
-		//membrana.calcularFuerzasFEM(referencia, ks);
+		membrana.calcularFuerzasHelfrich(kb);
+		membrana.calcularFuerzasFEM(referencia, ks);
 
 		// -----------------------------------------------------------------------//
 		// 4. Propagar la densidad de fuerza hacia el fluido
