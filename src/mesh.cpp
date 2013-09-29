@@ -1512,7 +1512,7 @@ void mesh::encontrarNodosProblema()
 	int seguidor = 0;
 	for(int i = 0 ; i<nNodos;i++)
 	{
-		if(carasPorNodo[i][0]<6)
+		if(CARASPORNODO(i, 0)<6)
 		{
 			nodosProblema[seguidor] = i;
 			seguidor++;
