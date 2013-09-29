@@ -1205,8 +1205,14 @@ void mesh::actualizarGeometria()
 	// 1. Actualiza normales por cara
 	for(int i = 0; i<nCeldas ; i++)
 	{
-		// TODO Change that
-		//darNormalCara(i, normalesPorCara[i]);
+		float normales[3];
+
+		darNormalCara(i, normalesPorCara[i]);
+
+		NORMALESPORCARA(i, 0) = normales[0];
+		NORMALESPORCARA(i, 1) = normales[1];
+		NORMALESPORCARA(i, 2) = normales[2];
+
 	}
 }
 
