@@ -558,7 +558,18 @@ void mesh::iniciarGeometria()
 	for(int i = 0 ; i<nNodos ; i++)
 	{
 		// TODO change that
-		//calcularAngulosPorNodo(i, angulosPorNodo[i]);
+		float angulos[7];
+
+		calcularAngulosPorNodo(i, angulos);
+
+		ANGULOSPORNODO(i, 0) = angulos[0];
+		ANGULOSPORNODO(i, 1) = angulos[1];
+		ANGULOSPORNODO(i, 2) = angulos[2];
+		ANGULOSPORNODO(i, 3) = angulos[3];
+		ANGULOSPORNODO(i, 4) = angulos[4];
+		ANGULOSPORNODO(i, 5) = angulos[5];
+		ANGULOSPORNODO(i, 6) = angulos[6];
+
 	}
 
 	// 9. 10. Inicia la estructura de valores para Laplace beltrami sobre cada nodo

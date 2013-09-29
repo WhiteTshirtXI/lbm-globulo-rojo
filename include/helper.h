@@ -17,6 +17,7 @@
 #define FUERZA_MESH(i, j) ACCESS2(fuerza, nNodos, 3, i, j)
 #define CARASPORNODO(i, j) ACCESS2(carasPorNodo, nNodos, 7, i, j)
 #define NORMALESPORCARA(i, j) ACCESS2(normalesPorCara, nCeldas, 3, i, j)
+#define ANGULOSPORNODO(i, j) ACCESS2(angulosPorNodo, nNodos, 7, i, j)
 
 #define CELLS_D(s, x, y, z, a) ACCESS5(cells_d, 2, X, Y, Z, 19, s, x, y, z, a)
 #define FLAGS_D(x, y, z) ACCESS3(flags_d, X, Y, Z, x, y, z)
