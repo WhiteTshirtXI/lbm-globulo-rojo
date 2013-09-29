@@ -1064,12 +1064,12 @@ void mesh::darCarasSegunDosNodos(int nodoA, int nodoB, int caras[2])
 // Retorna el area alrededor de un nodo utilizando el baricentro de cada cara
 float mesh::darAreaBaricentricaPorNodo(int nodo)
 {
-	int caras = carasPorNodo[nodo][0];
+	int caras = CARASPORNODO(nodo, 0);
 	float area = 0.0;
 	// Sumar el area de todas las caras y dividirlo por 3
 	for(int i = 1; i <= caras; i++)
 	{
-		area += darAreaElemento(carasPorNodo[nodo][i]);
+		area += darAreaElemento(CARASPORNODO(nodo, i));
 	}
 	return area/3.;
 }
