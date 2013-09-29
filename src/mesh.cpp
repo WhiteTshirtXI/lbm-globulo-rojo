@@ -254,9 +254,9 @@ int mesh::existeNodo(float x, float y, float z)
 	int existe = -1;
 	for(int i=0;i<nNodos;i++)
 	{
-		bool a = (vertex[i][0]==x);
-		bool b = (vertex[i][1]==y);
-		bool c = (vertex[i][2]==z);
+		bool a = (VERTEX(i, 0)==x);
+		bool b = (VERTEX(i, 1)==y);
+		bool c = (VERTEX(i, 2)==z);
 		if(a &&  b && c)
 		{
 			existe = i;
