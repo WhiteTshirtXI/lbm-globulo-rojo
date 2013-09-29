@@ -1212,13 +1212,13 @@ void mesh::actualizarGeometria()
 
 void mesh::setVelocidad(int n, float ux, float uy, float uz)
 {
-	velocidad2[n][0] = velocidad[n][0];
-	velocidad2[n][1] = velocidad[n][1];
-	velocidad2[n][2] = velocidad[n][2];
+	VELOCIDAD2(n, 0) = VELOCIDAD(n, 0);
+	VELOCIDAD2(n, 1) = VELOCIDAD(n, 1);
+	VELOCIDAD2(n, 2) = VELOCIDAD(n, 2);
 
-	velocidad[n][0] = ux;
-	velocidad[n][1] = uy;
-	velocidad[n][2] = uz;
+	VELOCIDAD(n, 0) = ux;
+	VELOCIDAD(n, 1) = uy;
+	VELOCIDAD(n, 2) = uz;
 }
 
 

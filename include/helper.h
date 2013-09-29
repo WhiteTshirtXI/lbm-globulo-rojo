@@ -12,6 +12,7 @@
 #define VERTEX(i, j) ACCESS2(vertex, 12, 3, i, j)
 #define FACES(i, j) ACCESS2(faces, 20, 3, i, j)
 #define VELOCIDAD(i, j) /* TODO */ 1
+#define VELOCIDAD2(i, j) /* TODO */ 1
 #define NORMALESPORNODO(i, j) /* TODO */ 1
 #define FUERZA_MESH(i, j) /* TODO */ 1
 #define CARASPORNODO(i, j) /* TODO */ 1
