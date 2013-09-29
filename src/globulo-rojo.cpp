@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//
-		//interpolation(fluido, membrana, X, Y, Z);
+		interpolation(fluido, membrana, X, Y, Z);
 
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
@@ -99,7 +99,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 4. Propagar la densidad de fuerza hacia el fluido
 		// -----------------------------------------------------------------------//
-		//spread(fluido, membrana, X, Y, Z);
+		spread(fluido, membrana, X, Y, Z);
 
 		// -----------------------------------------------------------------------//
 		// 5. Solucionar la dinámica del fluido
