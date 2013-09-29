@@ -1411,21 +1411,21 @@ float mesh::darAreaElemento(int i)
 {
 	float a[3], b[3], c[3], v1[3], v2[3], temp[3];
 	int A, B, C;
-	A=faces[i][0];
-	B=faces[i][1];
-	C=faces[i][2];
+	A=FACES(i, 0);
+	B=FACES(i, 1);
+	C=FACES(i, 2);
 
-	a[0]=vertex[A][0];
-	a[1]=vertex[A][1];
-	a[2]=vertex[A][2];
+	a[0]=VERTEX(A, 0);
+	a[1]=VERTEX(A, 1);
+	a[2]=VERTEX(A, 2);
 
-	b[0]=vertex[B][0];
-	b[1]=vertex[B][1];
-	b[2]=vertex[B][2];
+	b[0]=VERTEX(B, 0);
+	b[1]=VERTEX(B, 1);
+	b[2]=VERTEX(B, 2);
 
-	c[0]=vertex[C][0];
-	c[1]=vertex[C][1];
-	c[2]=vertex[C][2];
+	c[0]=VERTEX(C, 0);
+	c[1]=VERTEX(C, 1);
+	c[2]=VERTEX(C, 2);
 
 	v1[0] = b[0] - a[0];
 	v1[1] = b[1] - a[1];
