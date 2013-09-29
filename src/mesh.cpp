@@ -94,11 +94,12 @@ void mesh::moverCentro(float x, float y, float z)
 	cX = x;
 	cY = y;
 	cZ = z;
-	for(int i=0;i<nNodos;i++)
+
+	for(int i = 0; i < nNodos; i++)
 	{
-		vertex[i][0] = vertex[i][0]  + x;
-		vertex[i][1] = vertex[i][1]  + y;
-		vertex[i][2] = vertex[i][2]  + z;
+		VERTEX(i, 0) = VERTEX(i, 0) + x;
+		VERTEX(i, 1) = VERTEX(i, 1) + y;
+		VERTEX(i, 2) = VERTEX(i, 2) + z;
 	}
 }
 
