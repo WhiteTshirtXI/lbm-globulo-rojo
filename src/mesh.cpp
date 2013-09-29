@@ -859,20 +859,20 @@ float mesh::darKhPorNodo(int nodo)
 float mesh::calcularAngulosPorNodo(int nodo, float angulos[7])
 {
 	// Obtiene la cantidad de caras que comparten el nodo
-	int numeroCaras = carasPorNodo[nodo][0];
+	int numeroCaras = CARASPORNODO(nodo, 0);
 	float sumTheta_i = 0.0;
 	float pi[3];
 	darPosNodo(nodo, pi);
 
 	for(int i = 1; i<=numeroCaras; i++)
 	{
-		int nCara = carasPorNodo[nodo][i]; // iesima cara
+		int nCara = CARASPORNODO(nodo, i); // iesima cara
 
 		// Obtiene los tres vertices de cada cara
 		int n1, n2, n3;
-		n1 = faces[nCara][0];
-		n2 = faces[nCara][1];
-		n3 = faces[nCara][2];
+		n1 = FACES(nCara, 0);
+		n2 = FACES(nCara, 1);
+		n3 = FACES(nCara, 2);
 
 		// Calcular el angulo de la i-esima cara
 		float pA[3];
