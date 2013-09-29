@@ -1225,9 +1225,9 @@ void mesh::setVelocidad(int n, float ux, float uy, float uz)
 // Alamacena las tres componentes de laposicion en pos
 void mesh::darPosNodo(int n, float pos[3])
 {
-	pos[0] = vertex[n][0];
-	pos[1] = vertex[n][1];
-	pos[2] = vertex[n][2];
+	pos[0] = VERTEX(n, 0);
+	pos[1] = VERTEX(n, 1);
+	pos[2] = VERTEX(n, 2);
 }
 
 void mesh::darFuerzaNodo(int n, float f[3])
