@@ -1170,9 +1170,9 @@ void mesh::darNormalCara(int j, float normal[3]){
 
 	// Encontrar los tres nodos que componen la cara
 	float nodoA[3], nodoB[3], nodoC[3], a[3], b[3];
-	darPosNodo(faces[j][0], nodoA);
-	darPosNodo(faces[j][1], nodoB);
-	darPosNodo(faces[j][2], nodoC);
+	darPosNodo(FACES(j, 0), nodoA);
+	darPosNodo(FACES(j, 1), nodoB);
+	darPosNodo(FACES(j, 2), nodoC);
 
 	// Construir vector 1
 	a[0] = nodoB[0] - nodoA[0];
