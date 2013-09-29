@@ -1037,9 +1037,9 @@ void mesh::darCarasPorNodo(int nodo, int caras[7])
 // Dar nodos que forman la cara
 void mesh::darNodosPorElemento(int cara, int nodos[3])
 {
-	nodos[0] = faces[cara][0];
-	nodos[1] = faces[cara][1];
-	nodos[2] = faces[cara][2];
+	nodos[0] = FACES(cara, 0);
+	nodos[1] = FACES(cara, 1);
+	nodos[2] = FACES(cara, 2);
 }
 
 // Dar las dos caras que tienen dos nodos en comun
