@@ -1537,9 +1537,9 @@ bool mesh::esNodoProblema(int nodo)
 float mesh::darAreaAlrededorPorNodo(int nodo)
 {
 	float area = 0.0;
-	for(int i = 1; i <= carasPorNodo[nodo][0]; i++)
+	for(int i = 1; i <= CARASPORNODO(nodo, 0); i++)
 	{
-		area += darAreaElemento(carasPorNodo[nodo][i]);
+		area += darAreaElemento(CARASPORNODO(nodo, i));
 	}
 	return area;
 }
