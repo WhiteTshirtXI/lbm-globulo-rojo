@@ -83,23 +83,23 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//
-		interpolation(fluido, membrana, X, Y, Z);
+		//interpolation(fluido, membrana, X, Y, Z);
 
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//
-		membrana.moverNodos(dt, dx);
+		//membrana.moverNodos(dt, dx);
 
 		// -----------------------------------------------------------------------//
 		// 3. Calcular fuerzas en los nodos de la membrana
 		// -----------------------------------------------------------------------//
-		membrana.calcularFuerzasHelfrich(kb);
-		membrana.calcularFuerzasFEM(referencia, ks);
+		//membrana.calcularFuerzasHelfrich(kb);
+		//membrana.calcularFuerzasFEM(referencia, ks);
 
 		// -----------------------------------------------------------------------//
 		// 4. Propagar la densidad de fuerza hacia el fluido
 		// -----------------------------------------------------------------------//
-		spread(fluido, membrana, X, Y, Z);
+		//spread(fluido, membrana, X, Y, Z);
 
 		// -----------------------------------------------------------------------//
 		// 5. Solucionar la dinámica del fluido
@@ -117,6 +117,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		membrana.calcularCambioArea(referencia);
 
+
 		// -----------------------------------------------------------------------//
 		// 9. Visualización
 		// -----------------------------------------------------------------------//
@@ -125,7 +126,7 @@ int main(int argc, char *argv[])
 			retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
 
 			fluido.guardar(ts);
-			membrana.guardarVTU(ts);
+			//membrana.guardarVTU(ts);
 			printf("%d\n",ts);
 		}
 	}//Ciclo principal
