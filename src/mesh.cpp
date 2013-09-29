@@ -5,6 +5,8 @@
 #include "mesh.h"
 #include "elemento.h"
 #include <omp.h>
+#include "debug.h"
+#include "helper.h"
 
 // Constructor
 mesh::mesh()
@@ -15,13 +17,14 @@ mesh::mesh()
 
 	// Twelve vertices of icosahedron on unit sphere
 	// Creacion dinamica de arreglos al apuntador
-	// Apuntadores a filas
-	nNodos = 12;
-	vertex = new float*[12];
 
-	// Apuntadores a columnas
-	for(int i = 0; i<12 ; i++){
-		vertex[i] = new float[3];
+	nNodos = 12;
+
+	vertex = (float*)malloc(12*3*sizeof(float));
+	if (vertex == NULL) {
+
+		_DEBUG("Error allocating vertex");
+		exit(-1);
 	}
 
 	float nodos[12][3] ={{  tau,  one,    0},
@@ -37,19 +40,21 @@ mesh::mesh()
 			{   0 , -tau, -one },
 			{   0 ,  tau, -one }};
 
-	for(int i = 0; i<nNodos ; i++)
-		for(int j = 0 ; j<3 ; j++)
-		{
-			vertex[i][j]=nodos[i][j];
-		}
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0 ; j < 3; j++)
+			VERTEX(i, j) = nodos[i][j];
+
 
 	// Structure for unit icosahedron
 	nCeldas = 20;
-	faces = new int*[20];
-	for(int i=0;i<nCeldas;i++)
-	{
-		faces[i]=new int[3];
+
+	faces = (int*)malloc(20*3*sizeof(int));
+	if (faces == NULL) {
+
+		_DEBUG("Error allocating faces");
+		exit(-1);
 	}
+
 	int f[20][3]= {{4,  7,  8},
 			{4,  9,  7},
 			{5, 11,  6},
@@ -70,11 +75,11 @@ mesh::mesh()
 			{6, 11,  1},
 			{7, 9,  2},
 			{6,  2, 10}};
-	for(int i = 0; i<nCeldas ; i++)
-		for(int j = 0 ; j<3 ; j++)
-		{
-			faces[i][j]=f[i][j];
-		}
+
+	for(int i = 0; i < nCeldas; i++)
+		for(int j = 0 ; j < 3; j++)
+			FACES(i, j) = f[i][j];
+
 }
 
 //Destructor: Destruye los elementos de la malla nodos y celdas
