@@ -195,13 +195,13 @@ void mesh::proyectarEsfera(float r)
 	for(int i=0; i<nNodos;i++)
 	{
 		float x, y, z;
-		x = vertex[i][0]*vertex[i][0];
-		y = vertex[i][1]*vertex[i][1];
-		z = vertex[i][2]*vertex[i][2];
+		x = VERTEX(i, 0)*VERTEX(i, 0);
+		y = VERTEX(i, 1)*VERTEX(i, 1);
+		z = VERTEX(i, 2)*VERTEX(i, 2);
 		float mag= sqrt(x+y+z);
-		vertex[i][0] = vertex[i][0]*r/mag;
-		vertex[i][1] = vertex[i][1]*r/mag;
-		vertex[i][2] = vertex[i][2]*r/mag;
+		VERTEX(i, 0) = VERTEX(i, 0)*r/mag;
+		VERTEX(i, 1) = VERTEX(i, 1)*r/mag;
+		VERTEX(i, 2) = VERTEX(i, 2)*r/mag;
 	}
 }
 
