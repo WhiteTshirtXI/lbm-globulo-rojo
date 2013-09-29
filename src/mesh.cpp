@@ -1499,9 +1499,9 @@ void mesh::actualizarNodos(float **nodos)
 		y = nodos[u][1];
 		z = nodos[u][2];
 
-		vertex[u][0] = x;
-		vertex[u][1] = y;
-		vertex[u][2] = z;
+		VERTEX(u, 0) = x;
+		VERTEX(u, 1) = y;
+		VERTEX(u, 2) = z;
 	}
 }
 
