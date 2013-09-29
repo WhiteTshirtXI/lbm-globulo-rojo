@@ -238,6 +238,11 @@ void mesh::proyectarElipsoide(float a, float b, float c)
 int mesh::agregarNodo(float x, float y, float z)
 {
 	float *nuevaLista = (float*)malloc((nNodos+1)*3*sizeof(float));
+	if (nuevaLista == NULL) {
+
+		_DEBUG("Error allocating nuevaLista");
+		exit(-1);
+	}
 
 	for(int i = 0; i < nNodos; i++)
 	{
@@ -304,6 +309,11 @@ void mesh::mesh_refine_tri4()
 	// Crear la estructura para las nuevas celdas
 
 	int *nuevaLista = (int*)malloc((4*nCeldas)*3*sizeof(int));
+	if (nuevaLista == NULL) {
+
+		_DEBUG("Error allocating nuevaLista");
+		exit(-1);
+	}
 
 	// Dividir todas las caras
 	for(int f = 0; f < nCeldas; f++)
@@ -520,6 +530,12 @@ void mesh::iniciarGeometria()
 
 	// 3. Inicia la estructura de normales sobre cada cara
 	normalesPorCara = (float*)malloc(nCeldas*3*sizeof(float));
+	if (normalesPorCara == NULL) {
+
+		_DEBUG("Error allocating normalesPorCara");
+		exit(-1);
+	}
+
 	for(int i = 0 ; i<nCeldas ; i++)
 	{
 		float normales[3];
@@ -534,7 +550,11 @@ void mesh::iniciarGeometria()
 
 	// 4. Construye la estructura de caras por Nodo
 	carasPorNodo = (float*)malloc(nNodos*7*sizeof(float));
+	if (carasPorNodo == NULL) {
 
+		_DEBUG("Error allocating carasPorNodo");
+		exit(-1);
+	}
 
 	// Construir la estructura que contiene las caras que comparten cada nodo
 	// Recorrer nodos
@@ -561,6 +581,12 @@ void mesh::iniciarGeometria()
 
 	// 5. Iniciar vectores normales por cada nodo como el promedio de caras
 	normalesPorNodo = (float*)malloc(nNodos*3*sizeof(float));
+	if (normalesPorNodo == NULL) {
+
+		_DEBUG("Error allocating normalesPorNodo");
+		exit(-1);
+	}
+
 	for(int i = 0 ; i<nNodos ; i++)
 	{
 
@@ -575,6 +601,11 @@ void mesh::iniciarGeometria()
 
 	// 6. Inicia la estructura de angulos sobre cada nodo
 	angulosPorNodo = (float*)malloc(nNodos*7*sizeof(float));
+	if (angulosPorNodo == NULL) {
+
+		_DEBUG("Error allocating angulosPorNodo");
+		exit(-1);
+	}
 	for(int i = 0 ; i<nNodos ; i++)
 	{
 		float angulos[7];
@@ -602,12 +633,29 @@ void mesh::iniciarGeometria()
 
 	// 11. Iniciar la fuerza en cada nodo
 	fuerza = (float*)malloc(nNodos*3*sizeof(float));
+	if (fuerza == NULL) {
+
+		_DEBUG("Error allocating fuerza");
+		exit(-1);
+	}
 	memset(fuerza, 0, nNodos*3*sizeof(float));
 
 	// 12. Iniciar la velocidad en cada nodo
 	velocidad = (float*)malloc(nNodos*3*sizeof(float));
+	if (velocidad == NULL) {
+
+		_DEBUG("Error allocating velocidad");
+		exit(-1);
+	}
 	memset(velocidad, 0, nNodos*3*sizeof(float));
+
+
 	velocidad2 = (float*)malloc(nNodos*3*sizeof(float));
+	if (velocidad2 == NULL) {
+
+		_DEBUG("Error allocating velocidad2");
+		exit(-1);
+	}
 	memset(velocidad2, 0, nNodos*3*sizeof(float));
 
 
