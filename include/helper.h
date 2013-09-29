@@ -14,6 +14,7 @@
 #define VELOCIDAD(i, j) /* TODO */ 1
 #define NORMALESPORNODO(i, j) /* TODO */ 1
 #define FUERZA_MESH(i, j) /* TODO */ 1
+#define CARASPORNODO(i, j) /* TODO */ 1
 
 #define CELLS_D(s, x, y, z, a) ACCESS5(cells_d, 2, X, Y, Z, 19, s, x, y, z, a)
 #define FLAGS_D(x, y, z) ACCESS3(flags_d, X, Y, Z, x, y, z)
