@@ -1258,9 +1258,9 @@ void mesh::calcularFuerzasFEM(mesh referencia, float ks)
 	// Obtener indices de los nodos de cada elemento
 	for(int e=0;e<nCeldas;e++)
 	{
-		a = faces[e][0];
-		b = faces[e][1];
-		c = faces[e][2];
+		a = FACES(e, 0);
+		b = FACES(e, 1);
+		c = FACES(e, 2);
 
 		// Obtener las posiciones de cada vertice no deformado
 		referencia.darPosNodo(a,va);
@@ -1299,17 +1299,17 @@ void mesh::calcularFuerzasFEM(mesh referencia, float ks)
 		rotacion(ref, def, fuerzas, ks);
 
 		//Agregar cada fuerza a cada nodo
-		fuerza[a][0] = fuerza[a][0]-fuerzas[0][0];
-		fuerza[a][1] = fuerza[a][1]-fuerzas[0][1];
-		fuerza[a][2] = fuerza[a][2]-fuerzas[0][2];
+		FUERZA_MESH(a, 0) = FUERZA_MESH(a, 0)-FUERZAS(0, 0);
+		FUERZA_MESH(a, 1) = FUERZA_MESH(a, 1)-FUERZAS(0, 1);
+		FUERZA_MESH(a, 2) = FUERZA_MESH(a, 2)-FUERZAS(0, 2);
 
-		fuerza[b][0] = fuerza[b][0]-fuerzas[1][0];
-		fuerza[b][1] = fuerza[b][1]-fuerzas[1][1];
-		fuerza[b][2] = fuerza[b][2]-fuerzas[1][2];
+		FUERZA_MESH(b, 0) = FUERZA_MESH(b, 0)-FUERZAS(1, 0);
+		FUERZA_MESH(b, 1) = FUERZA_MESH(b, 1)-FUERZAS(1, 1);
+		FUERZA_MESH(b, 2) = FUERZA_MESH(b, 2)-FUERZAS(1, 2);
 
-		fuerza[c][0] = fuerza[c][0]-fuerzas[2][0];
-		fuerza[c][1] = fuerza[c][1]-fuerzas[2][1];
-		fuerza[c][2] = fuerza[c][2]-fuerzas[2][2];
+		FUERZA_MESH(c, 0) = FUERZA_MESH(c, 0)-FUERZAS(2, 0);
+		FUERZA_MESH(c, 1) = FUERZA_MESH(c, 1)-FUERZAS(2, 1);
+		FUERZA_MESH(c, 2) = FUERZA_MESH(c, 2)-FUERZAS(2, 2);
 	}
 }
 

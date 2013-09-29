@@ -15,6 +15,7 @@
 #define VELOCIDAD2(i, j) /* TODO */ 1
 #define NORMALESPORNODO(i, j) /* TODO */ 1
 #define FUERZA_MESH(i, j) /* TODO */ 1
+#define FUERZAS(i, j) /* TODO */ 1
 #define CARASPORNODO(i, j) /* TODO */ 1
 #define NORMALESPORCAJA(i, j) /* TODO */ 1
 
