@@ -226,22 +226,23 @@ void mesh::proyectarElipsoide(float a, float b, float c)
 // Retorna la posicion del nuevo nodo
 int mesh::agregarNodo(float x, float y, float z)
 {
-	float **nuevaLista = new float*[nNodos+1];
-	for(int i=0; i<nNodos+1; i++)
+	float *nuevaLista = (float*)malloc((nNodos+1)*3*sizeof(float));
+
+	for(int i = 0; i < nNodos; i++)
 	{
-		nuevaLista[i]=new float[3];
+		ACCESS2(nuevaLista, nNodos+1, 3, i, 0) = VERTEX(i, 0);
+		ACCESS2(nuevaLista, nNodos+1, 3, i, 1) = VERTEX(i, 1);
+		ACCESS2(nuevaLista, nNodos+1, 3, i, 2) = VERTEX(i, 2);
 	}
-	for(int i=0; i<nNodos; i++)
-	{
-		nuevaLista[i][0]=vertex[i][0];
-		nuevaLista[i][1]=vertex[i][1];
-		nuevaLista[i][2]=vertex[i][2];
-	}
-	nuevaLista[nNodos][0]=x;
-	nuevaLista[nNodos][1]=y;
-	nuevaLista[nNodos][2]=z;
+
+	ACCESS2(nuevaLista, nNodos+1, 3, nNodos, 0) = x;
+	ACCESS2(nuevaLista, nNodos+1, 3, nNodos, 1) = y;
+	ACCESS2(nuevaLista, nNodos+1, 3, nNodos, 2) = z;
+
 	vertex = nuevaLista;
+
 	nNodos=nNodos+1;
+
 	return nNodos-1;
 }
 
