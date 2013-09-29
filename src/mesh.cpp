@@ -937,22 +937,22 @@ float mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 	int nodoC;
 	for(int k = 0; k < 3; k++)
 	{
-		if((faces[caras[1]][k] != nodoA) && (faces[caras[1]][k] != nodoB))
+		if((FACES(caras[1], k) != nodoA) && (FACES(caras[1], k) != nodoB))
 		{
-			nodoC = faces[caras[1]][k];
+			nodoC = FACES(caras[1], k);
 		}
 	}
 
 	// Trazar los vectores entre nodos A, B y C
 	float vec1[3], vec2[3], vec3[3];
 
-	vec1[0] = vertex[nodoC][0] - vertex[nodoB][0];
-	vec1[1] = vertex[nodoC][1] - vertex[nodoB][1];
-	vec1[2] = vertex[nodoC][2] - vertex[nodoB][2];
+	vec1[0] = VERTEX(nodoC, 0) - VERTEX(nodoB, 0);
+	vec1[1] = VERTEX(nodoC, 1) - VERTEX(nodoB, 1);
+	vec1[2] = VERTEX(nodoC, 2) - VERTEX(nodoB, 2);
 
-	vec2[0] = vertex[nodoC][0] - vertex[nodoA][0];
-	vec2[1] = vertex[nodoC][1] - vertex[nodoA][1];
-	vec2[2] = vertex[nodoC][2] - vertex[nodoA][2];
+	vec2[0] = VERTEX(nodoC, 0) - VERTEX(nodoA, 0);
+	vec2[1] = VERTEX(nodoC, 1) - VERTEX(nodoA, 1);
+	vec2[2] = VERTEX(nodoC, 2) - VERTEX(nodoA, 2);
 
 	float beta = 0.0;
 	float alpha = 0.0;
@@ -974,20 +974,20 @@ float mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 	// Encontrar el tercer nodo en la cara 2
 	for(int k = 0; k < 3; k++)
 	{
-		if((faces[caras[0]][k] != nodoA) && (faces[caras[0]][k] != nodoB))
+		if((FACES(caras[0], k) != nodoA) && (FACES(caras[0], k) != nodoB))
 		{
-			nodoC = faces[caras[0]][k];
+			nodoC = FACES(caras[0], k);
 		}
 	}
 
 	// Trazar los vectores entre nodos A, B y C
-	vec1[0] = vertex[nodoC][0] - vertex[nodoB][0];
-	vec1[1] = vertex[nodoC][1] - vertex[nodoB][1];
-	vec1[2] = vertex[nodoC][2] - vertex[nodoB][2];
+	vec1[0] = VERTEX(nodoC, 0) - VERTEX(nodoB, 0);
+	vec1[1] = VERTEX(nodoC, 1) - VERTEX(nodoB, 1);
+	vec1[2] = VERTEX(nodoC, 2) - VERTEX(nodoB, 2);
 
-	vec2[0] = vertex[nodoC][0] - vertex[nodoA][0];
-	vec2[1] = vertex[nodoC][1] - vertex[nodoA][1];
-	vec2[2] = vertex[nodoC][2] - vertex[nodoA][2];
+	vec2[0] = VERTEX(nodoC, 0) - VERTEX(nodoA, 0);
+	vec2[1] = VERTEX(nodoC, 1) - VERTEX(nodoA, 1);
+	vec2[2] = VERTEX(nodoC, 2) - VERTEX(nodoA, 2);
 
 	mag1 = sqrt(pow(vec1[0],2) + pow(vec1[1],2) + pow(vec1[2],2));
 	mag2 = sqrt(pow(vec2[0],2) + pow(vec2[1],2) + pow(vec2[2],2));
@@ -1001,9 +1001,9 @@ float mesh::darAreaVoronoiParcial(int nodoA, int nodoB)
 	//alpha = acos((v1Dotv2)/(mag1*mag2));
 
 	float d[3];
-	d[0] = vertex[nodoA][0] - vertex[nodoB][0];
-	d[1] = vertex[nodoA][1] - vertex[nodoB][1];
-	d[2] = vertex[nodoA][2] - vertex[nodoB][2];
+	d[0] = VERTEX(nodoA, 0) - VERTEX(nodoB, 0);
+	d[1] = VERTEX(nodoA, 1) - VERTEX(nodoB, 1);
+	d[2] = VERTEX(nodoA, 2) - VERTEX(nodoB, 2);
 
 	float magd = 0.0;
 	magd = sqrt((pow(d[0],2) + pow(d[1],2) + pow(d[2],2)));
