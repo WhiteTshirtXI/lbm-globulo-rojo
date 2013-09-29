@@ -1137,17 +1137,17 @@ void mesh::darNodosVecinos(int nodo, int vecinos[7])
 void mesh::darNormalPromedio(int nodo, float normal[3])
 {
 	// Encuentra el numero de caras que comparten el nodo
-	int numeroCaras = carasPorNodo[nodo][0];
+	int numeroCaras = CARASPORNODO(nodo, 0);
 	float pX = 0.0;
 	float pY = 0.0;
 	float pZ = 0.0;
 	int nCara = 0;
 	for(int c = 1 ; c<=numeroCaras ; c++)
 	{
-		nCara = carasPorNodo[nodo][c];
-		pX+=normalesPorCara[nCara][0];
-		pY+=normalesPorCara[nCara][1];
-		pZ+=normalesPorCara[nCara][2];
+		nCara = CARASPORNODO(nodo, c);
+		pX+=NORMALESPORCARA(nCara, 0);
+		pY+=NORMALESPORCARA(nCara, 1);
+		pZ+=NORMALESPORCARA(nCara, 2);
 	}
 	normal[0] = pX/numeroCaras;
 	normal[1] = pY/numeroCaras;
