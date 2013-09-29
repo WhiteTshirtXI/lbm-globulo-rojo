@@ -1160,7 +1160,7 @@ bool mesh::contieneNodo(int nodo, int cara)
 	bool flag = false;
 	for(int p = 0; p < 3; p++)
 	{
-		if(faces[cara][p]==nodo){
+		if(FACES(cara, p)==nodo){
 			flag = true;}
 	}
 	return flag;
