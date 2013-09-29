@@ -166,24 +166,24 @@ void mesh::proyectarRBC(float r)
 
 	for(int i = 0;i<nNodos;i++)
 	{
-		float X = vertex[i][0];
-		float Y = vertex[i][1];
+		float X = VERTEX(i, 0);
+		float Y = VERTEX(i, 1);
 		float a = ((X*X)+(Y*Y))/(R*R);
 		float b = (c0 + c1*a + c2*(a*a));
 		float Z = (0.5*R*(sqrt(fabs(1.0-a))))*b;
-		vertex[i][0]=X;
-		vertex[i][1]=Y;
+		VERTEX(i, 0)=X;
+		VERTEX(i, 1)=Y;
 
 		// Calcular magnitud del vector
 		float x, y, z;
-		x = vertex[i][0]*vertex[i][0];
-		y = vertex[i][1]*vertex[i][1];
-		z = vertex[i][2]*vertex[i][2];
+		x = VERTEX(i, 0)*VERTEX(i, 0);
+		y = VERTEX(i, 1)*VERTEX(i, 1);
+		z = VERTEX(i, 2)*VERTEX(i, 2);
 		float mag = sqrt(x+y+z);
-		if(vertex[i][2]/mag<0){
-			vertex[i][2]=-Z;// + (X*X)/16;
+		if(VERTEX(i, 2)/mag<0){
+			VERTEX(i, 2)=-Z;// + (X*X)/16;
 		}else{
-			vertex[i][2]=Z;// + (X*X)/16;
+			VERTEX(i, 2)=Z;// + (X*X)/16;
 		}
 	}
 }
