@@ -1334,18 +1334,18 @@ void mesh::calcularFuerzasHelfrich(float kb)
 {
 	for(int i = 0; i < nNodos; i++)
 	{
-		fuerza[i][0] = 0.0;
-		fuerza[i][1] = 0.0;
-		fuerza[i][2] = 0.0;
+		FUERZA_MESH(i, 0) = 0.0;
+		FUERZA_MESH(i, 1) = 0.0;
+		FUERZA_MESH(i, 2) = 0.0;
 		/*float c0 = 1.0e-9;
 		float kh = darKhPorNodo(i);
 		float kg = darKgPorNodo(i);
 		float lkh = darLaplaceKh(i);
 		float mag = 0.0;
 		mag = (kb*(((2*kh) + c0)*(2*(kh*kh)-(2*kg)-(kh*c0)))) + (2*kb*lkh);
-		fuerza[i][0] = fuerza[i][0]-mag*normalesPorNodo[i][0];
-		fuerza[i][1] = fuerza[i][1]-mag*normalesPorNodo[i][1];
-		fuerza[i][2] = fuerza[i][2]-mag*normalesPorNodo[i][2];*/
+		FUERZA_MESH(i, 0) = FUERZA_MESH(i, 0)-mag*normalesPorNodo[i][0];
+		FUERZA_MESH(i, 1) = FUERZA_MESH(i, 1)-mag*normalesPorNodo[i][1];
+		FUERZA_MESH(i, 2) = FUERZA_MESH(i, 2)-mag*normalesPorNodo[i][2];*/
 	}
 }
 
