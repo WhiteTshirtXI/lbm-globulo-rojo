@@ -602,9 +602,9 @@ float mesh::darLaplaceKg(int nodo)
 
 		// 3. Buscar los nodos Pj1 y Pj2
 		// Busca a pj1
-		int nodoA = faces[caras[0]][0];
-		int nodoB = faces[caras[0]][1];
-		int nodoC = faces[caras[0]][2];
+		int nodoA = FACES(caras[0], 0);
+		int nodoB = FACES(caras[0], 1);
+		int nodoC = FACES(caras[0], 2);
 		if((nodoA != nodo) && (nodoA != pj))
 		{
 			pj1 = nodoA;
@@ -617,9 +617,9 @@ float mesh::darLaplaceKg(int nodo)
 		}
 
 		// Busca a pj2
-		nodoA = faces[caras[1]][0];
-		nodoB = faces[caras[1]][1];
-		nodoC = faces[caras[1]][2];
+		nodoA = FACES(caras[1], 0);
+		nodoB = FACES(caras[1], 1);
+		nodoC = FACES(caras[1], 2);
 		if((nodoA != nodo) && (nodoA != pj))
 		{
 			pj2 = nodoA;
