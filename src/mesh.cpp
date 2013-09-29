@@ -414,7 +414,7 @@ int mesh::guardarVTU(int t)
 		// Escribir coordenadas de cada nodo
 		for(int i = 0; i<nNodos ; i++){
 			for(int j = 0; j<3 ; j++){
-				fprintf(archivo, "%f ", vertex[i][j]);
+				fprintf(archivo, "%f ", VERTEX(i, j));
 			}
 			fprintf(archivo, "\n");}
 
@@ -423,7 +423,7 @@ int mesh::guardarVTU(int t)
 		for(int i = 0; i<nCeldas ; i++){
 			fprintf(archivo, "3 ");
 			for(int j = 0; j<3 ; j++){
-				fprintf(archivo, "%i ", faces[i][j]);
+				fprintf(archivo, "%i ", FACES(i, j));
 			}
 			fprintf(archivo, "\n");}
 		fprintf(archivo,"CELL_TYPES %d\n",nCeldas);
@@ -435,21 +435,21 @@ int mesh::guardarVTU(int t)
 		fprintf(archivo,"VECTORS Velocidad float\n");
 		for(int i=0;i<nNodos;i++)
 		{
-			fprintf(archivo, "%f %f %f\n", velocidad[i][0], velocidad[i][1], velocidad[i][2]);
+			fprintf(archivo, "%f %f %f\n", VELOCIDAD(i, 0), VELOCIDAD(i,1), VELOCIDAD(i, 2));
 		}
 
 		// Escribir vectores normales por cada nodo
 		fprintf(archivo,"VECTORS Normales float\n");
 		for(int i=0;i<nNodos;i++)
 		{
-			fprintf(archivo, "%f %f %f\n", normalesPorNodo[i][0], normalesPorNodo[i][1], normalesPorNodo[i][2]);
+			fprintf(archivo, "%f %f %f\n", NORMALESPORNODO(i, 0), NORMALESPORNODO(i, 1), NORMALESPORNODO(i, 2));
 		}
 
 		// Escribir vectores de fuerza por cada nodo
 		fprintf(archivo,"VECTORS Fuerzas float\n");
 		for(int i=0;i<nNodos;i++)
 		{
-			fprintf(archivo, "%f %f %f\n", fuerza[i][0], fuerza[i][1], fuerza[i][2]);
+			fprintf(archivo, "%f %f %f\n", FUERZA_MESH(i, 0), FUERZA_MESH(i, 1), FUERZA_MESH(i, 2));
 		}
 
 		// Escribir valores de curvatura media en cada nodo

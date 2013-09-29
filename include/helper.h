@@ -11,6 +11,9 @@
 
 #define VERTEX(i, j) ACCESS2(vertex, 12, 3, i, j)
 #define FACES(i, j) ACCESS2(faces, 20, 3, i, j)
+#define VELOCIDAD(i, j) /* TODO */ 1
+#define NORMALESPORNODO(i, j) /* TODO */ 1
+#define FUERZA_MESH(i, j) /* TODO */ 1
 
 #define CELLS_D(s, x, y, z, a) ACCESS5(cells_d, 2, X, Y, Z, 19, s, x, y, z, a)
 #define FLAGS_D(x, y, z) ACCESS3(flags_d, X, Y, Z, x, y, z)
