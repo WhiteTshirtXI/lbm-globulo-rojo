@@ -508,8 +508,13 @@ void mesh::iniciarGeometria()
 	normalesPorCara = (float*)malloc(nCeldas*3*sizeof(float));
 	for(int i = 0 ; i<nCeldas ; i++)
 	{
-		//TODO change that
-		//darNormalCara(i,normalesPorCara[i]);
+		float normales[3];
+
+		darNormalCara(i, normales);
+
+		NORMALESPORCARA(i, 0) = normales[0];
+		NORMALESPORCARA(i, 1) = normales[1];
+		NORMALESPORCARA(i, 2) = normales[2];
 	}
 
 
@@ -1207,7 +1212,7 @@ void mesh::actualizarGeometria()
 	{
 		float normales[3];
 
-		darNormalCara(i, normalesPorCara[i]);
+		darNormalCara(i, normales);
 
 		NORMALESPORCARA(i, 0) = normales[0];
 		NORMALESPORCARA(i, 1) = normales[1];
