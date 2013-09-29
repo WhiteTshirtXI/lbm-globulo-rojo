@@ -1242,9 +1242,9 @@ void mesh::moverNodos(float dt, float dx)
 {
 	for(int u=0;u<nNodos;u++)
 	{
-		vertex[u][0] += ((3/2)*(velocidad[u][0]) - (1./2.0)*(velocidad2[u][0]))*dt;
-		vertex[u][1] += ((3/2)*(velocidad[u][1]) - (1./2.0)*(velocidad2[u][1]))*dt;
-		vertex[u][2] += ((3/2)*(velocidad[u][2]) - (1./2.0)*(velocidad2[u][2]))*dt;
+		VERTEX(u, 0) += ((3/2)*(VELOCIDAD(u, 0)) - (1./2.0)*(VELOCIDAD2(u, 0)))*dt;
+		VERTEX(u, 1) += ((3/2)*(VELOCIDAD(u, 1)) - (1./2.0)*(VELOCIDAD2(u, 1)))*dt;
+		VERTEX(u, 2) += ((3/2)*(VELOCIDAD(u, 2)) - (1./2.0)*(VELOCIDAD2(u, 2)))*dt;
 	}
 }
 
