@@ -144,12 +144,12 @@ void mesh::rotarEstructura(float alpha, float phi, float theta)
 	// Rotar cada uno de los nodos por la matriz
 	for(int i = 0; i<nNodos ; i++)
 	{
-		float x = Rxyz[0][0]*vertex[i][0] + Rxyz[0][1]*vertex[i][1] + Rxyz[0][2]*vertex[i][2];
-		float y = Rxyz[1][0]*vertex[i][0] + Rxyz[1][1]*vertex[i][1] + Rxyz[1][2]*vertex[i][2];
-		float z = Rxyz[2][0]*vertex[i][0] + Rxyz[2][1]*vertex[i][1] + Rxyz[2][2]*vertex[i][2];
-		vertex[i][0] = x;
-		vertex[i][1] = y;
-		vertex[i][2] = z;
+		float x = Rxyz[0][0]*VERTEX(i, 0) + Rxyz[0][1]*VERTEX(i, 1) + Rxyz[0][2]*VERTEX(i, 2);
+		float y = Rxyz[1][0]*VERTEX(i, 0) + Rxyz[1][1]*VERTEX(i, 1) + Rxyz[1][2]*VERTEX(i, 2);
+		float z = Rxyz[2][0]*VERTEX(i, 0) + Rxyz[2][1]*VERTEX(i, 1) + Rxyz[2][2]*VERTEX(i, 2);
+		VERTEX(i, 0) = x;
+		VERTEX(i, 1) = y;
+		VERTEX(i, 2) = z;
 	}
 
 }
