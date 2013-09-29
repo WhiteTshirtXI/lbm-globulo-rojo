@@ -1030,7 +1030,7 @@ void mesh::darCarasPorNodo(int nodo, int caras[7])
 {
 	for(int i = 0; i<7; i++)
 	{
-		caras[i] = carasPorNodo[nodo][i];
+		caras[i] = CARASPORNODO(nodo, i);
 	}
 }
 
