@@ -13,7 +13,7 @@
 #define FACES(i, j) ACCESS2(faces, 20, 3, i, j)
 #define VELOCIDAD(i, j) ACCESS2(velocidad, nNodos, 3, i, j)
 #define VELOCIDAD2(i, j) ACCESS2(velocidad2, nNodos, 3, i, j)
-#define NORMALESPORNODO(i, j) /* TODO */ 1
+#define NORMALESPORNODO(i, j) ACCESS2(normalesPorNodo, nNodos, 3, i, j)
 #define FUERZA_MESH(i, j) ACCESS2(fuerza, nNodos, 3, i, j)
 #define CARASPORNODO(i, j) ACCESS2(carasPorNodo, nNodos, 7, i, j)
 #define NORMALESPORCARA(i, j) ACCESS2(normalesPorCara, nCeldas, 3, i, j)
