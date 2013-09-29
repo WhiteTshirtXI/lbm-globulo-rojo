@@ -1083,7 +1083,7 @@ void mesh::darNodosVecinos(int nodo, int vecinos[7])
 		vecinos[i] = -1;
 	}
 	// Encuentra la cantidad de caras que comparten el nodo
-	int caras = carasPorNodo[nodo][0];
+	int caras = CARASPORNODO(nodo, 0);
 	// Crea el arreglo para guardar todos los vertices
 	int *nodos = new int[(caras*3)-3];
 	// El numero de caras es igual al numero de vecinos del nodo
@@ -1098,10 +1098,10 @@ void mesh::darNodosVecinos(int nodo, int vecinos[7])
 	{
 		// Por cada cara debe agregar tres nodos a la estructura
 		int nodoA, nodoB, nodoC;
-		int cara = carasPorNodo[nodo][i];
-		nodoA = faces[cara][0];
-		nodoB = faces[cara][1];
-		nodoC = faces[cara][2];
+		int cara = CARASPORNODO(nodo, i);
+		nodoA = FACES(cara, 0);
+		nodoB = FACES(cara, 1);
+		nodoC = FACES(cara, 2);
 		nodos[lugar] = nodoA;
 		lugar++;
 		nodos[lugar] = nodoB;
