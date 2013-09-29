@@ -14,7 +14,7 @@
 #define VELOCIDAD(i, j) ACCESS2(velocidad, nNodos, 3, i, j)
 #define VELOCIDAD2(i, j) ACCESS2(velocidad2, nNodos, 3, i, j)
 #define NORMALESPORNODO(i, j) /* TODO */ 1
-#define FUERZA_MESH(i, j) /* TODO */ 1
+#define FUERZA_MESH(i, j) ACCESS2(fuerza, nNodos, 3, i, j)
 #define FUERZAS(i, j) /* TODO */ 1
 #define CARASPORNODO(i, j) /* TODO */ 1
 #define NORMALESPORCARA(i, j) ACCESS2(normalesPorCara, nCeldas, 3, i, j)
