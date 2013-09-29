@@ -11,31 +11,31 @@ mesh::mesh()
 {
 	float t = (1.+sqrt(5.))/2.;
 	float tau = t/sqrt(1.+t*t);
-   float one = 1./sqrt(1.+t*t); // Unit sphere
+	float one = 1./sqrt(1.+t*t); // Unit sphere
 
-   // Twelve vertices of icosahedron on unit sphere
-   // Creacion dinamica de arreglos al apuntador
-   // Apuntadores a filas
-   nNodos = 12;
-   vertex = new float*[12];
+	// Twelve vertices of icosahedron on unit sphere
+	// Creacion dinamica de arreglos al apuntador
+	// Apuntadores a filas
+	nNodos = 12;
+	vertex = new float*[12];
 
-   // Apuntadores a columnas
-   for(int i = 0; i<12 ; i++){
-   	vertex[i] = new float[3];
-   }
+	// Apuntadores a columnas
+	for(int i = 0; i<12 ; i++){
+		vertex[i] = new float[3];
+	}
 
 	float nodos[12][3] ={{  tau,  one,    0},
-                     { -tau,  one,    0 },
-                     { -tau, -one,    0 },
-                     {  tau, -one,    0 },
-                     {  one,   0 ,  tau },
-                     {  one,   0 , -tau },
-                     { -one,   0 , -tau },
-                     { -one,   0 ,  tau },
-                     {   0 ,  tau,  one },
-                     {   0 , -tau,  one },
-                     {   0 , -tau, -one },
-                     {   0 ,  tau, -one }};
+			{ -tau,  one,    0 },
+			{ -tau, -one,    0 },
+			{  tau, -one,    0 },
+			{  one,   0 ,  tau },
+			{  one,   0 , -tau },
+			{ -one,   0 , -tau },
+			{ -one,   0 ,  tau },
+			{   0 ,  tau,  one },
+			{   0 , -tau,  one },
+			{   0 , -tau, -one },
+			{   0 ,  tau, -one }};
 
 	for(int i = 0; i<nNodos ; i++)
 		for(int j = 0 ; j<3 ; j++)
@@ -43,38 +43,38 @@ mesh::mesh()
 			vertex[i][j]=nodos[i][j];
 		}
 
-   // Structure for unit icosahedron
-   nCeldas = 20;
+	// Structure for unit icosahedron
+	nCeldas = 20;
 	faces = new int*[20];
 	for(int i=0;i<nCeldas;i++)
 	{
 		faces[i]=new int[3];
 	}
-        int f[20][3]= {{4,  7,  8},
-                        {4,  9,  7},
-                        {5, 11,  6},
-                        {5,  6, 10},
-                        {0,  3,  4},
-                        {0,  5,  3},
-                        {2,  1,  7},
-                        {2,  6,  1},
-                        {8, 11,  0},
-                        {8,  1, 11},
-                        {9,  3, 10},
-                        {9, 10,  2},
-                        {8,  0,  4},
-                        {11,  5, 0},
-                        {4,  3, 9},
-                        {5, 10,  3},
-                        {7,  1,  8},
-                        {6, 11,  1},
-                        {7, 9,  2},
-                        {6,  2, 10}};
+	int f[20][3]= {{4,  7,  8},
+			{4,  9,  7},
+			{5, 11,  6},
+			{5,  6, 10},
+			{0,  3,  4},
+			{0,  5,  3},
+			{2,  1,  7},
+			{2,  6,  1},
+			{8, 11,  0},
+			{8,  1, 11},
+			{9,  3, 10},
+			{9, 10,  2},
+			{8,  0,  4},
+			{11,  5, 0},
+			{4,  3, 9},
+			{5, 10,  3},
+			{7,  1,  8},
+			{6, 11,  1},
+			{7, 9,  2},
+			{6,  2, 10}};
 	for(int i = 0; i<nCeldas ; i++)
-	for(int j = 0 ; j<3 ; j++)
-	{
-		faces[i][j]=f[i][j];
-	}
+		for(int j = 0 ; j<3 ; j++)
+		{
+			faces[i][j]=f[i][j];
+		}
 }
 
 //Destructor: Destruye los elementos de la malla nodos y celdas
@@ -102,49 +102,49 @@ void mesh::moverCentro(float x, float y, float z)
 void mesh::rotarEstructura(float alpha, float phi, float theta)
 {
 	float Rx[3][3] = {{1,          0,          0},
-			  {0, cos(alpha), -sin(alpha)},
-			  {0, sin(alpha),  cos(alpha)}};
+			{0, cos(alpha), -sin(alpha)},
+			{0, sin(alpha),  cos(alpha)}};
 
 	float Ry[3][3] = {{ cos(phi), 0, sin(phi)},
-			  {        0, 1,        0},
-			  {-sin(phi), 0, cos(phi)}};
+			{        0, 1,        0},
+			{-sin(phi), 0, cos(phi)}};
 
-        float Rz[3][3] = {{cos(theta), -sin(theta),0},
-			  {sin(theta), cos(theta), 0},
-			  {0, 0, 1}};
+	float Rz[3][3] = {{cos(theta), -sin(theta),0},
+			{sin(theta), cos(theta), 0},
+			{0, 0, 1}};
 	float Rxy[3][3];
 	float Rxyz[3][3];
 
 	// Realizar composición de rotaciones
 	/* Realiza el producto de matrices y guarda el resultado en una tercera matriz*/
 	for(int i=0;i<3;i++){
-	      for(int j=0;j<3;j++){
-		  Rxy[i][j]=0;
-		  for(int k=0;k<3;k++){
-		      Rxy[i][j]=Rxy[i][j]+(Rx[i][k]*Ry[k][j]);
-		  }
-	      }
-	  }
+		for(int j=0;j<3;j++){
+			Rxy[i][j]=0;
+			for(int k=0;k<3;k++){
+				Rxy[i][j]=Rxy[i][j]+(Rx[i][k]*Ry[k][j]);
+			}
+		}
+	}
 
-	  for(int i=0;i<3;i++){
-	      for(int j=0;j<3;j++){
-		  Rxyz[i][j]=0;
-		  for(int k=0;k<3;k++){
-		      Rxyz[i][j]=Rxyz[i][j]+(Rxy[i][k]*Rz[k][j]);
-		  }
-	      }
-	  }
+	for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			Rxyz[i][j]=0;
+			for(int k=0;k<3;k++){
+				Rxyz[i][j]=Rxyz[i][j]+(Rxy[i][k]*Rz[k][j]);
+			}
+		}
+	}
 
-	  // Rotar cada uno de los nodos por la matriz
-	  for(int i = 0; i<nNodos ; i++)
-	  {
-	  	float x = Rxyz[0][0]*vertex[i][0] + Rxyz[0][1]*vertex[i][1] + Rxyz[0][2]*vertex[i][2];
-	  	float y = Rxyz[1][0]*vertex[i][0] + Rxyz[1][1]*vertex[i][1] + Rxyz[1][2]*vertex[i][2];
-	  	float z = Rxyz[2][0]*vertex[i][0] + Rxyz[2][1]*vertex[i][1] + Rxyz[2][2]*vertex[i][2];
-	  	vertex[i][0] = x;
-	  	vertex[i][1] = y;
-	  	vertex[i][2] = z;
-	  }
+	// Rotar cada uno de los nodos por la matriz
+	for(int i = 0; i<nNodos ; i++)
+	{
+		float x = Rxyz[0][0]*vertex[i][0] + Rxyz[0][1]*vertex[i][1] + Rxyz[0][2]*vertex[i][2];
+		float y = Rxyz[1][0]*vertex[i][0] + Rxyz[1][1]*vertex[i][1] + Rxyz[1][2]*vertex[i][2];
+		float z = Rxyz[2][0]*vertex[i][0] + Rxyz[2][1]*vertex[i][1] + Rxyz[2][2]*vertex[i][2];
+		vertex[i][0] = x;
+		vertex[i][1] = y;
+		vertex[i][2] = z;
+	}
 
 }
 
@@ -153,13 +153,13 @@ void mesh::rotarEstructura(float alpha, float phi, float theta)
 void mesh::proyectarRBC(float r)
 {
 
-		float c0 = 0.207;
-        float c1 = 2.000;
-        float c2 = -1.123;
-        float R  = r;
+	float c0 = 0.207;
+	float c1 = 2.000;
+	float c2 = -1.123;
+	float R  = r;
 
-        for(int i = 0;i<nNodos;i++)
-        {
+	for(int i = 0;i<nNodos;i++)
+	{
 		float X = vertex[i][0];
 		float Y = vertex[i][1];
 		float a = ((X*X)+(Y*Y))/(R*R);
@@ -352,7 +352,7 @@ void mesh::mesh_refine_tri4()
 		nuevaLista[(f+1)*4-1][1] = C4[1];
 		nuevaLista[(f+1)*4-1][2] = C4[2];
 	}
-   delete faces;
+	delete faces;
 	faces = nuevaLista;
 	nCeldas = 4*nCeldas;
 }
@@ -371,7 +371,7 @@ int mesh::posicionNodo(float x, float y, float z)
 
 /**
 
-*/
+ */
 int mesh::guardarVTU(int t)
 {
 	FILE *archivo;/*El manejador de archivo*/
@@ -392,102 +392,102 @@ int mesh::guardarVTU(int t)
 
 	//Agrega el numero de la celula
 	strcat(ruta,".vtk");
-        archivo=fopen(ruta, "w");
-    if(archivo==NULL){/*Si no lo logramos abrir, salimos*/
+	archivo=fopen(ruta, "w");
+	if(archivo==NULL){/*Si no lo logramos abrir, salimos*/
 		printf("No se puede guardar archivo");
 		return 1;}
 	else{
 
-	// Escribir datos al archivo
-	// 1. Escribir cabecera.
-	fprintf(archivo, "# vtk DataFile Version 3.0\n");
-	fprintf(archivo, "vtk output\n");
-	fprintf(archivo, "ASCII\n");
-	fprintf(archivo, "DATASET UNSTRUCTURED_GRID\n");
-	fprintf(archivo, "POINTS %i float\n",nNodos);
+		// Escribir datos al archivo
+		// 1. Escribir cabecera.
+		fprintf(archivo, "# vtk DataFile Version 3.0\n");
+		fprintf(archivo, "vtk output\n");
+		fprintf(archivo, "ASCII\n");
+		fprintf(archivo, "DATASET UNSTRUCTURED_GRID\n");
+		fprintf(archivo, "POINTS %i float\n",nNodos);
 
-	// Escribir coordenadas de cada nodo
-	for(int i = 0; i<nNodos ; i++){
-		for(int j = 0; j<3 ; j++){
-			fprintf(archivo, "%f ", vertex[i][j]);
+		// Escribir coordenadas de cada nodo
+		for(int i = 0; i<nNodos ; i++){
+			for(int j = 0; j<3 ; j++){
+				fprintf(archivo, "%f ", vertex[i][j]);
+			}
+			fprintf(archivo, "\n");}
+
+		// Escribir celdas
+		fprintf(archivo, "CELLS %d %d\n",nCeldas,nCeldas*4);
+		for(int i = 0; i<nCeldas ; i++){
+			fprintf(archivo, "3 ");
+			for(int j = 0; j<3 ; j++){
+				fprintf(archivo, "%i ", faces[i][j]);
+			}
+			fprintf(archivo, "\n");}
+		fprintf(archivo,"CELL_TYPES %d\n",nCeldas);
+		for(int i = 0; i<nCeldas ; i++){
+			fprintf(archivo, "5 \n");}
+
+		// Escribir velocidad
+		fprintf(archivo,"POINT_DATA %d\n", nNodos);
+		fprintf(archivo,"VECTORS Velocidad float\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f %f %f\n", velocidad[i][0], velocidad[i][1], velocidad[i][2]);
 		}
-		fprintf(archivo, "\n");}
 
-	// Escribir celdas
-	fprintf(archivo, "CELLS %d %d\n",nCeldas,nCeldas*4);
-	for(int i = 0; i<nCeldas ; i++){
-		fprintf(archivo, "3 ");
-		for(int j = 0; j<3 ; j++){
-			fprintf(archivo, "%i ", faces[i][j]);
+		// Escribir vectores normales por cada nodo
+		fprintf(archivo,"VECTORS Normales float\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f %f %f\n", normalesPorNodo[i][0], normalesPorNodo[i][1], normalesPorNodo[i][2]);
 		}
-		fprintf(archivo, "\n");}
-	fprintf(archivo,"CELL_TYPES %d\n",nCeldas);
-	for(int i = 0; i<nCeldas ; i++){
-		fprintf(archivo, "5 \n");}
 
-	// Escribir velocidad
-	fprintf(archivo,"POINT_DATA %d\n", nNodos);
-	fprintf(archivo,"VECTORS Velocidad float\n");
-	for(int i=0;i<nNodos;i++)
-	{
-		fprintf(archivo, "%f %f %f\n", velocidad[i][0], velocidad[i][1], velocidad[i][2]);
-	}
+		// Escribir vectores de fuerza por cada nodo
+		fprintf(archivo,"VECTORS Fuerzas float\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f %f %f\n", fuerza[i][0], fuerza[i][1], fuerza[i][2]);
+		}
 
-    // Escribir vectores normales por cada nodo
-    fprintf(archivo,"VECTORS Normales float\n");
-    for(int i=0;i<nNodos;i++)
-    {
-    	fprintf(archivo, "%f %f %f\n", normalesPorNodo[i][0], normalesPorNodo[i][1], normalesPorNodo[i][2]);
-    }
+		// Escribir valores de curvatura media en cada nodo
+		fprintf(archivo,"SCALARS Curvatura-media float\n");
+		fprintf(archivo,"LOOKUP_TABLE default\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f\n", darKhPorNodo(i));
+		}
 
-    // Escribir vectores de fuerza por cada nodo
-    fprintf(archivo,"VECTORS Fuerzas float\n");
-    for(int i=0;i<nNodos;i++)
-    {
-      	fprintf(archivo, "%f %f %f\n", fuerza[i][0], fuerza[i][1], fuerza[i][2]);
-    }
+		// Escribir valores de curvatura de Gauss en cada nodo
+		fprintf(archivo,"SCALARS Curvatura-Gauss float\n");
+		fprintf(archivo,"LOOKUP_TABLE default\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f\n", darKgPorNodo(i));
+		}
 
-    // Escribir valores de curvatura media en cada nodo
-    fprintf(archivo,"SCALARS Curvatura-media float\n");
-    fprintf(archivo,"LOOKUP_TABLE default\n");
-    for(int i=0;i<nNodos;i++)
-    {
-      	fprintf(archivo, "%f\n", darKhPorNodo(i));
-    }
+		// Escribir valores de curvatura de Gauss en cada nodo
+		fprintf(archivo,"SCALARS k1 float\n");
+		fprintf(archivo,"LOOKUP_TABLE default\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f\n", darK1PorNodo(i));
+		}
 
-    // Escribir valores de curvatura de Gauss en cada nodo
-    fprintf(archivo,"SCALARS Curvatura-Gauss float\n");
-    fprintf(archivo,"LOOKUP_TABLE default\n");
-    for(int i=0;i<nNodos;i++)
-    {
-      	fprintf(archivo, "%f\n", darKgPorNodo(i));
-    }
+		// Escribir valores de curvatura de Gauss en cada nodo
+		fprintf(archivo,"SCALARS k2 float\n");
+		fprintf(archivo,"LOOKUP_TABLE default\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f\n", darK1PorNodo(i));
+		}
 
-    // Escribir valores de curvatura de Gauss en cada nodo
-    fprintf(archivo,"SCALARS k1 float\n");
-    fprintf(archivo,"LOOKUP_TABLE default\n");
-    for(int i=0;i<nNodos;i++)
-    {
-       	fprintf(archivo, "%f\n", darK1PorNodo(i));
-    }
-
-    // Escribir valores de curvatura de Gauss en cada nodo
-    fprintf(archivo,"SCALARS k2 float\n");
-    fprintf(archivo,"LOOKUP_TABLE default\n");
-    for(int i=0;i<nNodos;i++)
-    {
-       	fprintf(archivo, "%f\n", darK1PorNodo(i));
-    }
-
-    // Escribir los valores del operador Laplace en la curvatura media
-    fprintf(archivo,"SCALARS OLB-Kh float\n");
-    fprintf(archivo,"LOOKUP_TABLE default\n");
-    for(int i=0;i<nNodos;i++)
-    {
-      	fprintf(archivo, "%f\n", darLaplaceKh(i));
-    }
-    fclose(archivo);
-    return 0;
+		// Escribir los valores del operador Laplace en la curvatura media
+		fprintf(archivo,"SCALARS OLB-Kh float\n");
+		fprintf(archivo,"LOOKUP_TABLE default\n");
+		for(int i=0;i<nNodos;i++)
+		{
+			fprintf(archivo, "%f\n", darLaplaceKh(i));
+		}
+		fclose(archivo);
+		return 0;
 	}
 }
 
@@ -833,32 +833,32 @@ float mesh::darKhPorNodo(int nodo)
 	{
 		kh = darKhPromedioPorNodo(nodo);
 	}else{
-	float K[3] = {0.0,0.0,0.0}; // Mean curvature normal operator
-	int vecinos[7];
-	float xi[3];
-	darPosNodo(nodo, xi);
-	darNodosVecinos(nodo, vecinos);
-	// Por cada nodo vecino debe encontrar la suma de la cotangente y las direcciones
-	for(int i=1; i<=vecinos[0];i++)
-	{
-		float xj[3], d[3];
-		darPosNodo(vecinos[i], xj);
-		d[0] = xi[0] - xj[0];
-		d[1] = xi[1] - xj[1];
-		d[2] = xi[2] - xj[2];
-		float magd = norm(d);
-		float sumCot = darAreaVoronoiParcial(nodo, vecinos[i]);
-		// Multiplicar por ocho para ajustar la suma completa
-		K[0] += (sumCot*(d[0])*(8.0))/pow(magd,2);
-		K[1] += (sumCot*(d[1])*(8.0))/pow(magd,2);
-		K[2] += (sumCot*(d[2])*(8.0))/pow(magd,2);
-	}
+		float K[3] = {0.0,0.0,0.0}; // Mean curvature normal operator
+		int vecinos[7];
+		float xi[3];
+		darPosNodo(nodo, xi);
+		darNodosVecinos(nodo, vecinos);
+		// Por cada nodo vecino debe encontrar la suma de la cotangente y las direcciones
+		for(int i=1; i<=vecinos[0];i++)
+		{
+			float xj[3], d[3];
+			darPosNodo(vecinos[i], xj);
+			d[0] = xi[0] - xj[0];
+			d[1] = xi[1] - xj[1];
+			d[2] = xi[2] - xj[2];
+			float magd = norm(d);
+			float sumCot = darAreaVoronoiParcial(nodo, vecinos[i]);
+			// Multiplicar por ocho para ajustar la suma completa
+			K[0] += (sumCot*(d[0])*(8.0))/pow(magd,2);
+			K[1] += (sumCot*(d[1])*(8.0))/pow(magd,2);
+			K[2] += (sumCot*(d[2])*(8.0))/pow(magd,2);
+		}
 
-	float areaM = darAreaVoronoiPorNodo(nodo);
+		float areaM = darAreaVoronoiPorNodo(nodo);
 
-	// Calcular la magnitud del operador K
-	kh = sqrt(pow(K[0],2) + pow(K[1],2) + pow(K[2],2));
-	kh = kh/(2.*areaM);
+		// Calcular la magnitud del operador K
+		kh = sqrt(pow(K[0],2) + pow(K[1],2) + pow(K[2],2));
+		kh = kh/(2.*areaM);
 	}
 	// Build normal vectors
 	//normalesPorNodo[nodo][0] = K[0]/kh;
@@ -1089,60 +1089,60 @@ float mesh::darAreaBaricentricaPorNodo(int nodo)
 // Encuentra todos los nodos vecinos en el primer anillo dado un nodo i
 void mesh::darNodosVecinos(int nodo, int vecinos[7])
 {
-		//Inicializar vecinos en -1, la posición 0 indica el numero de vecinos
-		for(int i = 0 ; i<7 ; i++)
-		{
-			vecinos[i] = -1;
-		}
-		// Encuentra la cantidad de caras que comparten el nodo
-		int caras = carasPorNodo[nodo][0];
-		// Crea el arreglo para guardar todos los vertices
-		int *nodos = new int[(caras*3)-3];
-		// El numero de caras es igual al numero de vecinos del nodo
-		vecinos[0] = caras;
-		// Recorre la estructura de nodos y selecciona aquellos que no estan en vertices
-		int seguidor = 1;
-		int lugar = 0;
-		bool repetido = false;
+	//Inicializar vecinos en -1, la posición 0 indica el numero de vecinos
+	for(int i = 0 ; i<7 ; i++)
+	{
+		vecinos[i] = -1;
+	}
+	// Encuentra la cantidad de caras que comparten el nodo
+	int caras = carasPorNodo[nodo][0];
+	// Crea el arreglo para guardar todos los vertices
+	int *nodos = new int[(caras*3)-3];
+	// El numero de caras es igual al numero de vecinos del nodo
+	vecinos[0] = caras;
+	// Recorre la estructura de nodos y selecciona aquellos que no estan en vertices
+	int seguidor = 1;
+	int lugar = 0;
+	bool repetido = false;
 
-		// Inicializar la estructura nodos con los nodos de cada cara
-		for(int i=1; i<caras; i++)
-		{
-			// Por cada cara debe agregar tres nodos a la estructura
-			int nodoA, nodoB, nodoC;
-			int cara = carasPorNodo[nodo][i];
-			nodoA = faces[cara][0];
-			nodoB = faces[cara][1];
-			nodoC = faces[cara][2];
-			nodos[lugar] = nodoA;
-			lugar++;
-			nodos[lugar] = nodoB;
-			lugar++;
-			nodos[lugar] = nodoC;
-			lugar++;
-		}
+	// Inicializar la estructura nodos con los nodos de cada cara
+	for(int i=1; i<caras; i++)
+	{
+		// Por cada cara debe agregar tres nodos a la estructura
+		int nodoA, nodoB, nodoC;
+		int cara = carasPorNodo[nodo][i];
+		nodoA = faces[cara][0];
+		nodoB = faces[cara][1];
+		nodoC = faces[cara][2];
+		nodos[lugar] = nodoA;
+		lugar++;
+		nodos[lugar] = nodoB;
+		lugar++;
+		nodos[lugar] = nodoC;
+		lugar++;
+	}
 
-		for(int i = 0; i < (caras*3)-3 ; i++){
-			// Recorre el arreglo de vecinos para buscar el nodo i
-			if(nodos[i] == nodo){
-            repetido = true;
+	for(int i = 0; i < (caras*3)-3 ; i++){
+		// Recorre el arreglo de vecinos para buscar el nodo i
+		if(nodos[i] == nodo){
+			repetido = true;
+		}
+		else {
+			for(int j=1;j<seguidor;j++) {
+				//Compara cada vecino con nodo i
+				if((vecinos[j] == nodos[i])) {
+					repetido = true;
+				}
 			}
-			else {
-			   for(int j=1;j<seguidor;j++) {
-				   //Compara cada vecino con nodo i
-   				if((vecinos[j] == nodos[i])) {
-   					repetido = true;
-   				}
-		      }
-	      }
-
-			if(!repetido){
-				vecinos[seguidor] = nodos[i];
-            seguidor++;
-			}
-			repetido = false;
 		}
-      delete nodos;
+
+		if(!repetido){
+			vecinos[seguidor] = nodos[i];
+			seguidor++;
+		}
+		repetido = false;
+	}
+	delete nodos;
 }
 
 // Entrega el vector normal dado un nodo i
@@ -1173,7 +1173,7 @@ bool mesh::contieneNodo(int nodo, int cara)
 	for(int p = 0; p < 3; p++)
 	{
 		if(faces[cara][p]==nodo){
-		flag = true;}
+			flag = true;}
 	}
 	return flag;
 }
@@ -1362,9 +1362,9 @@ void mesh::calcularFuerzasHelfrich(float kb)
 
 /**
 +	Retorna el volumen del tetrahedro formado por los vertices de cada elemento
-*   y el centro de la esfera.
-*
-*/
+ *   y el centro de la esfera.
+ *
+ */
 float mesh::darVolumenElemento(int i)
 {
 	float a[3], b[3], c[3], d[3], v1[3], v2[3], v3[3], temp[3], V;
