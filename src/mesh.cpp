@@ -817,7 +817,7 @@ float mesh::darKhPorNodo(int nodo)
 {
 
 	float kh=0;
-	if(carasPorNodo[nodo][0]<6)
+	if(CARASPORNODO(nodo, 0)<6)
 	{
 		kh = darKhPromedioPorNodo(nodo);
 	}else{
