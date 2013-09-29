@@ -1232,9 +1232,9 @@ void mesh::darPosNodo(int n, float pos[3])
 
 void mesh::darFuerzaNodo(int n, float f[3])
 {
-	f[0] = fuerza[n][0];
-	f[1] = fuerza[n][1];
-	f[2] = fuerza[n][2];
+	f[0] = FUERZA_MESH(n, 0);
+	f[1] = FUERZA_MESH(n, 1);
+	f[2] = FUERZA_MESH(n, 2);
 }
 
 
