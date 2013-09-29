@@ -1321,12 +1321,12 @@ void mesh::calcularFuerzasVolumen(float v0, float ka)
 	float normal[3];
 	for(int i = 0; i < nNodos ; i++)
 	{
-		normal[0] = normalesPorNodo[i][0];
-		normal[1] = normalesPorNodo[i][1];
-		normal[2] = normalesPorNodo[i][2];
-		fuerza[i][0] = fuerza[i][0]+normal[0]*mag;
-		fuerza[i][1] = fuerza[i][1]+normal[1]*mag;
-		fuerza[i][2] = fuerza[i][2]+normal[2]*mag;
+		normal[0] = NORMALESPORNODO(i, 0);
+		normal[1] = NORMALESPORNODO(i, 1);
+		normal[2] = NORMALESPORNODO(i, 2);
+		FUERZA_MESH(i, 0) = FUERZA_MESH(i, 0)+normal[0]*mag;
+		FUERZA_MESH(i, 1) = FUERZA_MESH(i, 1)+normal[1]*mag;
+		FUERZA_MESH(i, 2) = FUERZA_MESH(i, 2)+normal[2]*mag;
 	}
 }
 void mesh::calcularFuerzasHelfrich(float kb)
