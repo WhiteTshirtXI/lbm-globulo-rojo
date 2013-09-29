@@ -1299,17 +1299,17 @@ void mesh::calcularFuerzasFEM(mesh referencia, float ks)
 		rotacion(ref, def, fuerzas, ks);
 
 		//Agregar cada fuerza a cada nodo
-		FUERZA_MESH(a, 0) = FUERZA_MESH(a, 0)-FUERZAS(0, 0);
-		FUERZA_MESH(a, 1) = FUERZA_MESH(a, 1)-FUERZAS(0, 1);
-		FUERZA_MESH(a, 2) = FUERZA_MESH(a, 2)-FUERZAS(0, 2);
+		FUERZA_MESH(a, 0) = FUERZA_MESH(a, 0)-fuerzas[0][0];
+		FUERZA_MESH(a, 1) = FUERZA_MESH(a, 1)-fuerzas[0][1];
+		FUERZA_MESH(a, 2) = FUERZA_MESH(a, 2)-fuerzas[0][2];
 
-		FUERZA_MESH(b, 0) = FUERZA_MESH(b, 0)-FUERZAS(1, 0);
-		FUERZA_MESH(b, 1) = FUERZA_MESH(b, 1)-FUERZAS(1, 1);
-		FUERZA_MESH(b, 2) = FUERZA_MESH(b, 2)-FUERZAS(1, 2);
+		FUERZA_MESH(b, 0) = FUERZA_MESH(b, 0)-fuerzas[1][0];
+		FUERZA_MESH(b, 1) = FUERZA_MESH(b, 1)-fuerzas[1][1];
+		FUERZA_MESH(b, 2) = FUERZA_MESH(b, 2)-fuerzas[1][2];
 
-		FUERZA_MESH(c, 0) = FUERZA_MESH(c, 0)-FUERZAS(2, 0);
-		FUERZA_MESH(c, 1) = FUERZA_MESH(c, 1)-FUERZAS(2, 1);
-		FUERZA_MESH(c, 2) = FUERZA_MESH(c, 2)-FUERZAS(2, 2);
+		FUERZA_MESH(c, 0) = FUERZA_MESH(c, 0)-fuerzas[2][0];
+		FUERZA_MESH(c, 1) = FUERZA_MESH(c, 1)-fuerzas[2][1];
+		FUERZA_MESH(c, 2) = FUERZA_MESH(c, 2)-fuerzas[2][2];
 	}
 }
 
