@@ -39,7 +39,6 @@ int main(int argc, char *argv[])
 
 	// Membrana
 	membrana.setID(1);
-	membrana.print();
 	membrana.mesh_refine_tri4();
 	membrana.mesh_refine_tri4();
 	membrana.mesh_refine_tri4();

@@ -136,11 +136,6 @@ mesh::mesh()
 			VERTEX(i, j) = nodos[i][j];
 
 
-	printf("VERTEX: ");
-	for(int i = 0; i < 12; i++)
-		for(int j = 0; j < 3; j++)
-			printf("%f ", VERTEX(i, j));
-	printf("\n");
 
 	// Structure for unit icosahedron
 	nCeldas = 20;
@@ -177,18 +172,12 @@ mesh::mesh()
 		for(int j = 0 ; j < 3; j++)
 			FACES(i, j) = f[i][j];
 
-	printf("FACES: ");
-	for(int i = 0; i < 12; i++)
-		for(int j = 0; j < 3; j++)
-			printf("%d ", FACES(i, j));
-	printf("\n");
 }
 
 //Destructor: Destruye los elementos de la malla nodos y celdas
 mesh::~mesh()
 {
 
-	//TODO frees
 	if (vertex != NULL) free(vertex);
 	if (faces != NULL) free(faces);
 
@@ -340,8 +329,6 @@ void mesh::proyectarElipsoide(float a, float b, float c)
 int mesh::agregarNodo(float x, float y, float z)
 {
 
-	printf("Agrega nodo: %f %f %f\n", x, y, z);
-
 	float *nuevaLista = (float*)malloc((nNodos+1)*3*sizeof(float));
 	if (nuevaLista == NULL) {
 
@@ -458,10 +445,6 @@ void mesh::mesh_refine_tri4()
 		c[0] = (C[0]+A[0])/2.;
 		c[1] = (C[1]+A[1])/2.;
 		c[2] = (C[2]+A[2])/2.;
-
-		printf("%d %d %d    %f %f %f    %f %f %f   %f %f %f\n", NA, NB, NC, A[0], A[1], A[2], B[0], B[1], B[2], C[0], C[1], C[2]);
-		printf("f: %d, %f %f %f    %f %f %f    %f %f %f\n", f, a[0], a[1], a[2], b[0], b[1], b[2], c[0], c[1], c[2]);
-
 
 		// Hallar el indice de cada nodo de las nuevas celdas
 		int Na, Nb, Nc;
@@ -680,8 +663,6 @@ void mesh::iniciarGeometria()
 			{
 				//printf("i: %d, j: %d, c: %d, s: %d\n", i, j, contador, seguidor);
 				// Agregar la cara a la lista de caras por nodo
-				//TODO remove if
-				if (seguidor >= 0 && seguidor < 7)
 				CARASPORNODO(i, seguidor) = j;
 
 				contador++;
