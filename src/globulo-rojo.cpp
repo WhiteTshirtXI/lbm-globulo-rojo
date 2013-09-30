@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
 
 	// Membrana
 	membrana.setID(1);
+	membrana.print();
 	membrana.mesh_refine_tri4();
 	membrana.mesh_refine_tri4();
 	membrana.mesh_refine_tri4();
@@ -80,6 +81,8 @@ int main(int argc, char *argv[])
 
 	for(int ts = 0 ; ts < STEPS ; ts++)
 	{
+		retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
+
 		// -----------------------------------------------------------------------//
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//

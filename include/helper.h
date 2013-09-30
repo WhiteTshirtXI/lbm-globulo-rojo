@@ -9,8 +9,8 @@
 #define RHO(x, y, z) ACCESS3(rho, X, Y, Z, x, y, z)
 #define FUERZA(x, y, z, k) ACCESS4(fuerza, X, Y, Z, 3, x, y, z, k)
 
-#define VERTEX(i, j) ACCESS2(vertex, 12, 3, i, j)
-#define FACES(i, j) ACCESS2(faces, 20, 3, i, j)
+#define VERTEX(i, j) ACCESS2(vertex, nNodos, 3, i, j)
+#define FACES(i, j) ACCESS2(faces, nCeldas, 3, i, j)
 #define VELOCIDAD(i, j) ACCESS2(velocidad, nNodos, 3, i, j)
 #define VELOCIDAD2(i, j) ACCESS2(velocidad2, nNodos, 3, i, j)
 #define NORMALESPORNODO(i, j) ACCESS2(normalesPorNodo, nNodos, 3, i, j)

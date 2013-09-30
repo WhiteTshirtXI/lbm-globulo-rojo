@@ -27,6 +27,7 @@ private:
 	float volumenE;
 
 public:
+	void print();
 	void setID(int ID){id=ID;}
 	int getID(){return id;}
 	float* darNodos(){return vertex;}
