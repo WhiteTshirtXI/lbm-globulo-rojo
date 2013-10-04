@@ -87,9 +87,23 @@ int main(int argc, char *argv[])
 	float *fuerza_d = NULL;
 	float *vel_d = NULL;
 
-	alloc_memory_GPU(X, Y, Z, &cells_d, &flags_d, &vel_d, &rho_d, &fuerza_d);
+	float *vertex_d = NULL;
+	float *velocidad_d = NULL;
+	float *velocidad2_d = NULL;
 
-	send_data_to_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
+	int nNodos = membrana.get_nNodos();
+
+	alloc_memory_GPU(&cells_d, 2*X*Y*Z*19*sizeof(float));
+	alloc_memory_GPU(&flags_d, X*Y*Z*sizeof(float));
+	alloc_memory_GPU(&vel_d, X*Y*Z*3*sizeof(float));
+	alloc_memory_GPU(&rho_d, X*Y*Z*sizeof(float));
+	alloc_memory_GPU(&fuerza_d, X*Y*Z*3*sizeof(float));
+
+	alloc_memory_GPU(&vertex_d, nNodos*3*sizeof(float));
+	alloc_memory_GPU(&velocidad_d, nNodos*3*sizeof(float));
+	alloc_memory_GPU(&velocidad2_d, nNodos*3*sizeof(float));
+
+	send_data_to_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d, nNodos, vertex_m, vertex_d, velocidad_m, velocidad_d, velocidad2_m, velocidad2_d);
 
 
 	// Fluido
@@ -101,13 +115,13 @@ int main(int argc, char *argv[])
 
 	for(int ts = 0 ; ts < STEPS ; ts++)
 	{
-		retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
+		retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d, nNodos, vertex_m, vertex_d, velocidad_m, velocidad_d, velocidad2_m, velocidad2_d);
 
 		// -----------------------------------------------------------------------//
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//
 		int nNodos = membrana.get_nNodos();
-		interpolation(vel_f, vertex_m, velocidad_m, velocidad2_m, nNodos, X, Y, Z);
+		interpolation(vel_d, vertex_d, velocidad_d, velocidad2_d, nNodos, X, Y, Z);
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//
@@ -149,7 +163,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		if(ts%VTK==0)
 		{
-			retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
+			retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d, nNodos, vertex_m, vertex_d, velocidad_m, velocidad_d, velocidad2_m, velocidad2_d);
 
 			fluido.guardar(ts);
 			membrana.guardarVTU(ts);
@@ -157,7 +171,7 @@ int main(int argc, char *argv[])
 		}
 	}//Ciclo principal
 
-	free_memory_GPU(cells_d, flags_d, vel_d, rho_d, fuerza_d);
+	free_memory_GPU(cells_d, flags_d, vel_d, rho_d, fuerza_d, vertex_d, velocidad_d, velocidad2_d);
 
 
 	return 0;
