@@ -8,10 +8,25 @@
 #include "mesh.h"
 #include "memory.h"
 
+#if defined(_WIN32)
+	#include <direct.h>
+#else
+	#include <sys/stat.h>
+	#include <sys/types.h>
+#endif
+
+
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+#if defined(_WIN32)
+	_mkdir("temp");
+#else
+	mkdir("temp", 0777);
+
+#endif
+
 	float X = 21;
 	float Y = 21;
 	float Z = 21;
@@ -132,7 +147,7 @@ int main(int argc, char *argv[])
 			retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
 
 			fluido.guardar(ts);
-			//membrana.guardarVTU(ts);
+			membrana.guardarVTU(ts);
 			printf("%d\n",ts);
 		}
 	}//Ciclo principal
