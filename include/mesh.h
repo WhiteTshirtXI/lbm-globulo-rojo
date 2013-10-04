@@ -27,6 +27,8 @@ private:
 	float volumenE;
 
 public:
+	float* get_vertex(void);
+	void print();
 	void setID(int ID){id=ID;}
 	int getID(){return id;}
 	float* darNodos(){return vertex;}
@@ -74,10 +76,10 @@ public:
 	void darFuerzaNodo(int n, float f[3]);
 	void setVelocidad(int n, float ux, float uy, float uz);
 	void moverNodos(float dt, float dx);
-	void calcularFuerzasFEM(mesh referencia, float ks);
+	void calcularFuerzasFEM(mesh &referencia, float ks);
 	void calcularFuerzasHelfrich(float kb);
 	void actualizarNodos(float **);
-	void calcularCambioArea(mesh ref);
+	void calcularCambioArea(mesh &ref);
 	float calcularAreaSuperficial();
 	float darAreaElemento(int i);
 	float darVolumenElemento(int i);

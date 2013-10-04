@@ -8,9 +8,106 @@
 #include "debug.h"
 #include "helper.h"
 
+float* mesh::get_vertex(void) {
+
+	return vertex;
+
+}
+
+void mesh::print() {
+
+	printf("id: %d\n", id);
+	printf("nNodos: %d\n", nNodos);
+	printf("nCeldas: %d\n", nCeldas);
+	printf("cX: %f, cY: %f, cZ: %f\n", cX, cY, cZ);
+
+	printf("VERTEX: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%f ", VERTEX(i, j));
+	printf("\n");
+
+	/*
+	printf("VELOCIDAD: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%f ", VELOCIDAD(i, j));
+	printf("\n");
+
+	printf("VELOCIDAD2: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%f ", VELOCIDAD2(i, j));
+	printf("\n");
+
+	printf("FUERZA: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%f ", FUERZA_MESH(i, j));
+	printf("\n");
+
+	printf("AREA: ");
+	for(int i = 0; i < nCeldas; i++)
+		printf("%f ", area[i]);
+	printf("\n");
+*/
+	printf("FACES: ");
+	for(int i = 0; i < nCeldas; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%d ", FACES(i, j));
+	printf("\n");
+/*
+	printf("NORMALESPORNODO: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%f ", NORMALESPORNODO(i, j));
+	printf("\n");
+
+	printf("NORMALESPORCARA: ");
+	for(int i = 0; i < nCeldas; i++)
+		for(int j = 0; j < 3; j++)
+			printf("%f ", NORMALESPORCARA(i, j));
+	printf("\n");
+
+
+	printf("CARASPORNODO: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 7; j++)
+			printf("%f ", CARASPORNODO(i, j));
+	printf("\n");
+
+	printf("ANGULOSPORNODO: ");
+	for(int i = 0; i < nNodos; i++)
+		for(int j = 0; j < 7; j++)
+			printf("%f ", ANGULOSPORNODO(i, j));
+	printf("\n");
+
+	printf("LAPLACEKG: ");
+	for(int i = 0; i < nNodos; i++)
+		printf("%f ", laplaceKg[i]);
+	printf("\n");
+
+	printf("LAPLACEKH: ");
+	for(int i = 0; i < nNodos; i++)
+		printf("%f ", laplaceKh[i]);
+	printf("\n");
+
+	printf("NODOSPROBLEMAS: ");
+	for(int i = 0; i < 12; i++)
+		printf("%f ", nodosProblema[i]);
+	printf("\n");
+*/
+	printf("areaS: %f\n", areaS);
+	printf("volumenE: %f\n", volumenE);
+
+}
+
 // Constructor
 mesh::mesh()
 {
+
+	cX = cY = cZ = 0;
+
 	float t = (1.+sqrt(5.))/2.;
 	float tau = t/sqrt(1.+t*t);
 	float one = 1./sqrt(1.+t*t); // Unit sphere
@@ -43,6 +140,7 @@ mesh::mesh()
 	for(int i = 0; i < nNodos; i++)
 		for(int j = 0 ; j < 3; j++)
 			VERTEX(i, j) = nodos[i][j];
+
 
 
 	// Structure for unit icosahedron
@@ -86,7 +184,6 @@ mesh::mesh()
 mesh::~mesh()
 {
 
-	//TODO frees
 	if (vertex != NULL) free(vertex);
 	if (faces != NULL) free(faces);
 
@@ -237,12 +334,14 @@ void mesh::proyectarElipsoide(float a, float b, float c)
 // Retorna la posicion del nuevo nodo
 int mesh::agregarNodo(float x, float y, float z)
 {
+
 	float *nuevaLista = (float*)malloc((nNodos+1)*3*sizeof(float));
 	if (nuevaLista == NULL) {
 
 		_DEBUG("Error allocating nuevaLista");
 		exit(-1);
 	}
+	memset(nuevaLista, 0, (nNodos+1)*3*sizeof(float));
 
 	for(int i = 0; i < nNodos; i++)
 	{
@@ -314,6 +413,7 @@ void mesh::mesh_refine_tri4()
 		_DEBUG("Error allocating nuevaLista");
 		exit(-1);
 	}
+	memset(nuevaLista, 0, (4*nCeldas)*3*sizeof(int));
 
 	// Dividir todas las caras
 	for(int f = 0; f < nCeldas; f++)
@@ -363,21 +463,21 @@ void mesh::mesh_refine_tri4()
 		int C3[3]={Nc, Nb, NC}, C4[3]={Na, Nb, Nc};
 
 		// Agregarlas a la nueva estructura de celdas
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-4, 0) = C1[0];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-4, 1) = C1[1];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-4, 2) = C1[2];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-4, 0) = C1[0];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-4, 1) = C1[1];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-4, 2) = C1[2];
 
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-3, 0) = C2[0];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-3, 1) = C2[1];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-3, 2) = C2[2];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-3, 0) = C2[0];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-3, 1) = C2[1];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-3, 2) = C2[2];
 
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-2, 0) = C3[0];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-2, 1) = C3[1];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-2, 2) = C3[2];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-2, 0) = C3[0];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-2, 1) = C3[1];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-2, 2) = C3[2];
 
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 0) = C4[0];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 1) = C4[1];
-		ACCESS2(nuevaLista, 4*nNodos, 3, (f+1)*4-1, 2) = C4[2];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-1, 0) = C4[0];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-1, 1) = C4[1];
+		ACCESS2(nuevaLista, 4*nCeldas, 3, (f+1)*4-1, 2) = C4[2];
 	}
 
 	free(faces);
@@ -567,14 +667,16 @@ void mesh::iniciarGeometria()
 		{
 			if(contieneNodo(i,j))
 			{
+				//printf("i: %d, j: %d, c: %d, s: %d\n", i, j, contador, seguidor);
 				// Agregar la cara a la lista de caras por nodo
-				ACCESS2(carasPorNodo, nNodos, 7, i, seguidor) = j;
+				CARASPORNODO(i, seguidor) = j;
+
 				contador++;
 				seguidor++;
 			}
 		}
 		// Escribe el numero de caras que tiene cada nodo
-		ACCESS2(carasPorNodo, nNodos, 7, i, 0) = contador;
+		CARASPORNODO(i, 0) = contador;
 		contador = 0;
 		seguidor = 1;
 	}
@@ -1221,6 +1323,7 @@ void mesh::darNormalPromedio(int nodo, float normal[3])
 {
 	// Encuentra el numero de caras que comparten el nodo
 	int numeroCaras = CARASPORNODO(nodo, 0);
+
 	float pX = 0.0;
 	float pY = 0.0;
 	float pZ = 0.0;
@@ -1337,7 +1440,7 @@ void mesh::moverNodos(float dt, float dx)
 	}
 }
 
-void mesh::calcularFuerzasFEM(mesh referencia, float ks)
+void mesh::calcularFuerzasFEM(mesh &referencia, float ks)
 {
 	int a,b,c;
 	float va[3], vb[3], vc[3], vA[3], vB[3], vC[3];
@@ -1541,8 +1644,9 @@ float mesh::calcularAreaSuperficial()
 
 
 
-void mesh::calcularCambioArea(mesh ref)
+void mesh::calcularCambioArea(mesh &ref)
 {
+
 	for(int i = 0 ; i < nCeldas; i++)
 	{
 		area[i] = darAreaElemento(i)-ref.darAreaElemento(i);

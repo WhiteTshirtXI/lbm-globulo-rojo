@@ -8,10 +8,25 @@
 #include "mesh.h"
 #include "memory.h"
 
+#if defined(_WIN32)
+	#include <direct.h>
+#else
+	#include <sys/stat.h>
+	#include <sys/types.h>
+#endif
+
+
 using namespace std;
 
 int main(int argc, char *argv[])
 {
+#if defined(_WIN32)
+	_mkdir("temp");
+#else
+	mkdir("temp", 0777);
+
+#endif
+
 	float X = 21;
 	float Y = 21;
 	float Z = 21;
@@ -78,13 +93,16 @@ int main(int argc, char *argv[])
 	fluido.calcularMacro(cells_d, rho_d, vel_d, fuerza_d);
 	fluido.setVelocidad(gamma_dot);
 
+
+
 	for(int ts = 0 ; ts < STEPS ; ts++)
 	{
+		retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
+
 		// -----------------------------------------------------------------------//
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//
-		//interpolation(fluido, membrana, X, Y, Z);
-
+		interpolation(fluido, membrana, X, Y, Z);
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//
@@ -96,10 +114,13 @@ int main(int argc, char *argv[])
 		membrana.calcularFuerzasHelfrich(kb);
 		membrana.calcularFuerzasFEM(referencia, ks);
 
+
+		//Good up to here
+
 		// -----------------------------------------------------------------------//
 		// 4. Propagar la densidad de fuerza hacia el fluido
 		// -----------------------------------------------------------------------//
-		//spread(fluido, membrana, X, Y, Z);
+		spread(fluido, membrana, X, Y, Z);
 
 		// -----------------------------------------------------------------------//
 		// 5. Solucionar la dinámica del fluido
@@ -126,7 +147,7 @@ int main(int argc, char *argv[])
 			retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
 
 			fluido.guardar(ts);
-			//membrana.guardarVTU(ts);
+			membrana.guardarVTU(ts);
 			printf("%d\n",ts);
 		}
 	}//Ciclo principal
