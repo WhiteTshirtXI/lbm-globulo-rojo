@@ -6,6 +6,8 @@
 #include "fluid.h"
 #include "mesh.h"
 #include "ibm.h"
+#include "helper.h"
+#include "interpolation.h"
 
 using namespace std;
 
@@ -134,38 +136,12 @@ void spread(fluid &fluido, mesh &membrana, int x, int y, int z)
 /**
 * TODO: Implementar las funcion interpolation
 */
-void interpolation(fluid &fluido, mesh &membrana, int x, int y, int z)
+void interpolation(float *vel_d, float *vertex_d, float *velocidad_d, float *velocidad2_d, int nNodos, int X, int Y, int Z)
 {
 
-	//Recorrer todos los nodos de la malla
-	float pos[3], distancia[3], delta, a, A, b, B, c, C, ux=0.0, uy=0.0, uz=0.0;
-	int nNodos = membrana.darNumeroNodos();
-	for(int u=0;u<nNodos;u++)
-	{
-		membrana.darPosNodo(u, pos);
-		a = pos[0]-3.0;
-		A = pos[0]+3.0;
-		b = pos[1]-3.0;
-		B = pos[1]+3.0;
-		c = pos[2]-3.0;
-		C = pos[2]+3.0;
+	//vel fluido
+	//membrana needs nNodos, vertex, velocidad, velocidad2
 
+	interpolation_wrapper(vel_d, nNodos, vertex_d, velocidad_d, velocidad2_d, X, Y, Z);
 
-		for(int i = (int) a;i<A;i++)
-			for(int j = (int) b;j<B;j++)
-				for(int k=(int) c;k<C;k++)
-				{
-					distancia[0]=pos[0]-i;
-					distancia[1]=pos[1]-j;
-					distancia[2]=pos[2]-k;
-					delta = dirac_4(distancia);
-					ux+=delta*fluido.darVelocidad(i,j,k,0);
-					uy+=delta*fluido.darVelocidad(i,j,k,1);
-					uz+=delta*fluido.darVelocidad(i,j,k,2);
-				}
-		membrana.setVelocidad(u,ux,uy,uz);
-		ux=0.0;
-		uy=0.0;
-		uz=0.0;
-	}
 }

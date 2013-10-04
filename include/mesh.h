@@ -27,6 +27,9 @@ private:
 	float volumenE;
 
 public:
+	int get_nNodos(void);
+	float* get_velocidad2(void);
+	float* get_velocidad(void);
 	float* get_vertex(void);
 	void print();
 	void setID(int ID){id=ID;}
