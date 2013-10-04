@@ -1440,7 +1440,7 @@ void mesh::moverNodos(float dt, float dx)
 	}
 }
 
-void mesh::calcularFuerzasFEM(mesh referencia, float ks)
+void mesh::calcularFuerzasFEM(mesh &referencia, float ks)
 {
 	int a,b,c;
 	float va[3], vb[3], vc[3], vA[3], vB[3], vC[3];
@@ -1644,8 +1644,9 @@ float mesh::calcularAreaSuperficial()
 
 
 
-void mesh::calcularCambioArea(mesh ref)
+void mesh::calcularCambioArea(mesh &ref)
 {
+
 	for(int i = 0 ; i < nCeldas; i++)
 	{
 		area[i] = darAreaElemento(i)-ref.darAreaElemento(i);

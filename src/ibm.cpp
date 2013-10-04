@@ -95,7 +95,7 @@ float dirac_4(float *x)
 * TODO: Implementar las funcion spread
 */
 
-void spread(fluid fluido, mesh membrana, int x, int y, int z)
+void spread(fluid &fluido, mesh &membrana, int x, int y, int z)
 {
 	// Recorrer todos los nodos del fluido
 	float pos[3]={0.0,0.0,0.0}, distancia[3]={0.0,0.0,0.0}, delta, df[3]={0.0,0.0,0.0}, fNodo[3]={0.0,0.0,0.0};

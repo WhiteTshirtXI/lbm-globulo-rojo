@@ -99,6 +99,9 @@ int main(int argc, char *argv[])
 		membrana.calcularFuerzasHelfrich(kb);
 		membrana.calcularFuerzasFEM(referencia, ks);
 
+
+		//Good up to here
+
 		// -----------------------------------------------------------------------//
 		// 4. Propagar la densidad de fuerza hacia el fluido
 		// -----------------------------------------------------------------------//
