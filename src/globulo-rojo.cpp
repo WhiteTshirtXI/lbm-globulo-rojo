@@ -78,6 +78,8 @@ int main(int argc, char *argv[])
 	fluido.calcularMacro(cells_d, rho_d, vel_d, fuerza_d);
 	fluido.setVelocidad(gamma_dot);
 
+
+
 	for(int ts = 0 ; ts < STEPS ; ts++)
 	{
 		retrieve_data_from_GPU(X, Y, Z, cells_f, cells_d, flags_f, flags_d, vel_f, vel_d, rho_f, rho_d, fuerza_f, fuerza_d);
@@ -86,7 +88,6 @@ int main(int argc, char *argv[])
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//
 		interpolation(fluido, membrana, X, Y, Z);
-
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//

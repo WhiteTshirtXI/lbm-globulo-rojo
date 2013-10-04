@@ -27,6 +27,7 @@ private:
 	float volumenE;
 
 public:
+	float* get_vertex(void);
 	void print();
 	void setID(int ID){id=ID;}
 	int getID(){return id;}

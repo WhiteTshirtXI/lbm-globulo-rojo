@@ -227,7 +227,7 @@ int fluid::guardar(int s) {
 
 float fluid::darVelocidad(int x, int y, int z, int f)
 {
-	return -1; //vel[x][y][z][f];
+	return VEL(x, y, z, f);
 }
 
 

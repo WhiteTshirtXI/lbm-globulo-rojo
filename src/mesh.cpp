@@ -8,6 +8,12 @@
 #include "debug.h"
 #include "helper.h"
 
+float* mesh::get_vertex(void) {
+
+	return vertex;
+
+}
+
 void mesh::print() {
 
 	printf("id: %d\n", id);

@@ -134,8 +134,9 @@ void spread(fluid fluido, mesh membrana, int x, int y, int z)
 /**
 * TODO: Implementar las funcion interpolation
 */
-void interpolation(fluid fluido, mesh membrana, int x, int y, int z)
+void interpolation(fluid &fluido, mesh &membrana, int x, int y, int z)
 {
+
 	//Recorrer todos los nodos de la malla
 	float pos[3], distancia[3], delta, a, A, b, B, c, C, ux=0.0, uy=0.0, uz=0.0;
 	int nNodos = membrana.darNumeroNodos();
@@ -148,6 +149,7 @@ void interpolation(fluid fluido, mesh membrana, int x, int y, int z)
 		B = pos[1]+3.0;
 		c = pos[2]-3.0;
 		C = pos[2]+3.0;
+
 
 		for(int i = (int) a;i<A;i++)
 			for(int j = (int) b;j<B;j++)
