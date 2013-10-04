@@ -7,6 +7,7 @@
 #include "fluid.h"
 #include "mesh.h"
 #include "memory.h"
+#include "mover_nodos.h"
 
 #if defined(_WIN32)
 	#include <direct.h>
@@ -123,7 +124,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//
-		membrana.moverNodos(dt, dx);
+		mover_nodos_wrapper(dt, nNodos, vertex_d, velocidad_d, velocidad2_d);
 
 		// -----------------------------------------------------------------------//
 		// 3. Calcular fuerzas en los nodos de la membrana
