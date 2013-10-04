@@ -8,6 +8,19 @@
 #include "debug.h"
 #include "helper.h"
 
+
+int mesh::get_nNodos(void) {
+	return nNodos;
+}
+
+float* mesh::get_velocidad2(void) {
+	return velocidad2;
+}
+
+float* mesh::get_velocidad(void) {
+	return velocidad;
+}
+
 float* mesh::get_vertex(void) {
 
 	return vertex;

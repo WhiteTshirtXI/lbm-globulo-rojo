@@ -77,6 +77,10 @@ int main(int argc, char *argv[])
 	float *fuerza_f = fluido.get_fuerza();
 	float *vel_f = fluido.get_vel();
 
+	float *vertex_m = membrana.get_vertex();
+	float *velocidad_m = membrana.get_velocidad();
+	float *velocidad2_m = membrana.get_velocidad2();
+
 	float *cells_d = NULL;
 	float *flags_d = NULL;
 	float *rho_d = NULL;
@@ -102,7 +106,8 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 1. Interpolation
 		// -----------------------------------------------------------------------//
-		interpolation(fluido, membrana, X, Y, Z);
+		int nNodos = membrana.get_nNodos();
+		interpolation(vel_f, vertex_m, velocidad_m, velocidad2_m, nNodos, X, Y, Z);
 		// -----------------------------------------------------------------------//
 		// 2. Encontrar nuevas posiciones de la membrana
 		// -----------------------------------------------------------------------//
