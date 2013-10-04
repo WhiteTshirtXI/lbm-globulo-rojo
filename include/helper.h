@@ -25,4 +25,8 @@
 #define RHO_D(x, y, z) ACCESS3(rho_d, X, Y, Z, x, y, z)
 #define FUERZA_D(x, y, z, k) ACCESS4(fuerza_d, X, Y, Z, 3, x, y, z, k)
 
+#define VERTEX_D(i, j) ACCESS2(vertex_d, nNodos, 3, i, j)
+#define VELOCIDAD_D(i, j) ACCESS2(velocidad_d, nNodos, 3, i, j)
+#define VELOCIDAD2_D(i, j) ACCESS2(velocidad2_d, nNodos, 3, i, j)
+
 #endif
