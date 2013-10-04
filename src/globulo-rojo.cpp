@@ -8,6 +8,7 @@
 #include "mesh.h"
 #include "memory.h"
 #include "mover_nodos.h"
+#include "calcularFuerzasHelfrich.h"
 
 #if defined(_WIN32)
 	#include <direct.h>
@@ -81,6 +82,7 @@ int main(int argc, char *argv[])
 	float *vertex_m = membrana.get_vertex();
 	float *velocidad_m = membrana.get_velocidad();
 	float *velocidad2_m = membrana.get_velocidad2();
+	float *fuerza_mesh = membrana.get_fuerza();
 
 	float *cells_d = NULL;
 	float *flags_d = NULL;
@@ -91,6 +93,7 @@ int main(int argc, char *argv[])
 	float *vertex_d = NULL;
 	float *velocidad_d = NULL;
 	float *velocidad2_d = NULL;
+	float *fuerza_mesh_d = NULL;
 
 	int nNodos = membrana.get_nNodos();
 
@@ -103,6 +106,7 @@ int main(int argc, char *argv[])
 	size_t vertex_size = nNodos*3*sizeof(float); alloc_memory_GPU(&vertex_d, vertex_size); send_data_to_GPU(vertex_m, vertex_d, vertex_size);
 	size_t velocidad_size = nNodos*3*sizeof(float); alloc_memory_GPU(&velocidad_d, velocidad_size); send_data_to_GPU(velocidad_m, velocidad_d, velocidad_size);
 	size_t velocidad2_size = nNodos*3*sizeof(float); alloc_memory_GPU(&velocidad2_d, velocidad2_size); send_data_to_GPU(velocidad2_m, velocidad2_d, velocidad2_size);
+	size_t fuerza_mesh_size = nNodos*3*sizeof(float); alloc_memory_GPU(&fuerza_mesh_d, fuerza_mesh_size); send_data_to_GPU(fuerza_mesh, fuerza_mesh_d, fuerza_mesh_size);
 
 	// Fluido
 	//From fluid constructor
@@ -129,7 +133,8 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 3. Calcular fuerzas en los nodos de la membrana
 		// -----------------------------------------------------------------------//
-		membrana.calcularFuerzasHelfrich(kb);
+		calcular_fuerzas_helfrich_wrapper(nNodos, fuerza_mesh_d);
+
 		membrana.calcularFuerzasFEM(referencia, ks);
 
 
@@ -169,6 +174,7 @@ int main(int argc, char *argv[])
 			retrieve_data_from_GPU(vertex_m, vertex_d, vertex_size);
 			retrieve_data_from_GPU(velocidad_m, velocidad_d, velocidad_size);
 			retrieve_data_from_GPU(velocidad2_m, velocidad2_d, velocidad2_size);
+			retrieve_data_from_GPU(fuerza_mesh, fuerza_mesh_d, fuerza_mesh_size);
 
 			fluido.guardar(ts);
 			membrana.guardarVTU(ts);

@@ -28,5 +28,6 @@
 #define VERTEX_D(i, j) ACCESS2(vertex_d, nNodos, 3, i, j)
 #define VELOCIDAD_D(i, j) ACCESS2(velocidad_d, nNodos, 3, i, j)
 #define VELOCIDAD2_D(i, j) ACCESS2(velocidad2_d, nNodos, 3, i, j)
+#define FUERZA_MESH_D(i, j) ACCESS2(fuerza_mesh_d, nNodos, 3, i, j)
 
 #endif

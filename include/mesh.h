@@ -27,6 +27,7 @@ private:
 	float volumenE;
 
 public:
+	float* get_fuerza(void);
 	int get_nNodos(void);
 	float* get_velocidad2(void);
 	float* get_velocidad(void);

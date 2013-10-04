@@ -8,6 +8,9 @@
 #include "debug.h"
 #include "helper.h"
 
+float* mesh::get_fuerza(void) {
+	return fuerza;
+}
 
 int mesh::get_nNodos(void) {
 	return nNodos;
