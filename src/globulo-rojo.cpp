@@ -9,6 +9,7 @@
 #include "memory.h"
 #include "mover_nodos.h"
 #include "calcularFuerzasHelfrich.h"
+#include "spread.h"
 
 #if defined(_WIN32)
 	#include <direct.h>
@@ -143,7 +144,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 4. Propagar la densidad de fuerza hacia el fluido
 		// -----------------------------------------------------------------------//
-		spread(fluido, membrana, X, Y, Z);
+		spread_wrapper(nNodos, vertex_d, fuerza_mesh_d, fuerza_d, X, Y, Z);
 
 		// -----------------------------------------------------------------------//
 		// 5. Solucionar la dinámica del fluido
