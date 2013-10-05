@@ -8,6 +8,18 @@
 #include "debug.h"
 #include "helper.h"
 
+float* mesh::get_area(void) {
+	return area;
+}
+
+int* mesh::get_faces(void) {
+	return faces;
+}
+
+int mesh::get_nCeldas(void) {
+	return nCeldas;
+}
+
 float* mesh::get_fuerza(void) {
 	return fuerza;
 }
@@ -210,6 +222,7 @@ mesh::~mesh()
 	if (fuerza != NULL) free(fuerza);
 	if (velocidad != NULL) free(velocidad);
 	if (velocidad2 != NULL) free(velocidad2);
+	if (area != NULL) free(area);
 }
 
 // Trasladar en el espacio el centro de la esfera
@@ -778,7 +791,14 @@ void mesh::iniciarGeometria()
 
 
 	// Iniciar la estructura para cambio de nodo
-	area = new float[nCeldas];
+	area = (float*)malloc(nCeldas*sizeof(float));
+	if (area == NULL) {
+
+		_DEBUG("Error allocating area");
+		exit(-1);
+	}
+	memset(area, 0, nCeldas*sizeof(float));
+
 
 	// Encontrar los nodos problema 5 caras
 	encontrarNodosProblema();

@@ -10,6 +10,7 @@
 #include "mover_nodos.h"
 #include "calcularFuerzasHelfrich.h"
 #include "spread.h"
+#include "calcular_cambio_area.h"
 
 #if defined(_WIN32)
 	#include <direct.h>
@@ -81,9 +82,13 @@ int main(int argc, char *argv[])
 	float *vel_f = fluido.get_vel();
 
 	float *vertex_m = membrana.get_vertex();
+	float *vertex_ref = referencia.get_vertex();
 	float *velocidad_m = membrana.get_velocidad();
 	float *velocidad2_m = membrana.get_velocidad2();
 	float *fuerza_mesh = membrana.get_fuerza();
+	int *faces_m = membrana.get_faces();
+	int *faces_ref = referencia.get_faces();
+	float *area_m = membrana.get_area();
 
 	float *cells_d = NULL;
 	float *flags_d = NULL;
@@ -92,22 +97,31 @@ int main(int argc, char *argv[])
 	float *vel_d = NULL;
 
 	float *vertex_d = NULL;
+	float *vertex_ref_d = NULL;
 	float *velocidad_d = NULL;
 	float *velocidad2_d = NULL;
 	float *fuerza_mesh_d = NULL;
+	int *faces_d = NULL;
+	int *faces_ref_d = NULL;
+	float *area_d = NULL;
 
 	int nNodos = membrana.get_nNodos();
+	int nCeldas = membrana.get_nCeldas();
 
-	size_t cells_size = 2*X*Y*Z*19*sizeof(float); alloc_memory_GPU(&cells_d, cells_size); send_data_to_GPU(cells_f, cells_d, cells_size);
-	size_t flags_size = X*Y*Z*sizeof(float); alloc_memory_GPU(&flags_d, flags_size); send_data_to_GPU(flags_f, flags_d, flags_size);
-	size_t vel_size = X*Y*Z*3*sizeof(float); alloc_memory_GPU(&vel_d, vel_size); send_data_to_GPU(vel_f, vel_d, vel_size);
-	size_t rho_size = X*Y*Z*sizeof(float); alloc_memory_GPU(&rho_d, rho_size); send_data_to_GPU(rho_f, rho_d, rho_size);
-	size_t fuerza_size = X*Y*Z*3*sizeof(float); alloc_memory_GPU(&fuerza_d, fuerza_size); send_data_to_GPU(fuerza_f, fuerza_d, fuerza_size);
+	size_t cells_size = 2*X*Y*Z*19*sizeof(float); alloc_memory_GPU((void**)&cells_d, cells_size); send_data_to_GPU(cells_f, cells_d, cells_size);
+	size_t flags_size = X*Y*Z*sizeof(float); alloc_memory_GPU((void**)&flags_d, flags_size); send_data_to_GPU(flags_f, flags_d, flags_size);
+	size_t vel_size = X*Y*Z*3*sizeof(float); alloc_memory_GPU((void**)&vel_d, vel_size); send_data_to_GPU(vel_f, vel_d, vel_size);
+	size_t rho_size = X*Y*Z*sizeof(float); alloc_memory_GPU((void**)&rho_d, rho_size); send_data_to_GPU(rho_f, rho_d, rho_size);
+	size_t fuerza_size = X*Y*Z*3*sizeof(float); alloc_memory_GPU((void**)&fuerza_d, fuerza_size); send_data_to_GPU(fuerza_f, fuerza_d, fuerza_size);
 
-	size_t vertex_size = nNodos*3*sizeof(float); alloc_memory_GPU(&vertex_d, vertex_size); send_data_to_GPU(vertex_m, vertex_d, vertex_size);
-	size_t velocidad_size = nNodos*3*sizeof(float); alloc_memory_GPU(&velocidad_d, velocidad_size); send_data_to_GPU(velocidad_m, velocidad_d, velocidad_size);
-	size_t velocidad2_size = nNodos*3*sizeof(float); alloc_memory_GPU(&velocidad2_d, velocidad2_size); send_data_to_GPU(velocidad2_m, velocidad2_d, velocidad2_size);
-	size_t fuerza_mesh_size = nNodos*3*sizeof(float); alloc_memory_GPU(&fuerza_mesh_d, fuerza_mesh_size); send_data_to_GPU(fuerza_mesh, fuerza_mesh_d, fuerza_mesh_size);
+	size_t vertex_size = nNodos*3*sizeof(float); alloc_memory_GPU((void**)&vertex_d, vertex_size); send_data_to_GPU(vertex_m, vertex_d, vertex_size);
+	size_t velocidad_size = nNodos*3*sizeof(float); alloc_memory_GPU((void**)&velocidad_d, velocidad_size); send_data_to_GPU(velocidad_m, velocidad_d, velocidad_size);
+	size_t velocidad2_size = nNodos*3*sizeof(float); alloc_memory_GPU((void**)&velocidad2_d, velocidad2_size); send_data_to_GPU(velocidad2_m, velocidad2_d, velocidad2_size);
+	size_t fuerza_mesh_size = nNodos*3*sizeof(float); alloc_memory_GPU((void**)&fuerza_mesh_d, fuerza_mesh_size); send_data_to_GPU(fuerza_mesh, fuerza_mesh_d, fuerza_mesh_size);
+	size_t faces_size = nCeldas*3*sizeof(int); alloc_memory_GPU((void**)&faces_d, faces_size); send_data_to_GPU(faces_m, faces_d, faces_size);
+	size_t faces_ref_size = nCeldas*3*sizeof(int); alloc_memory_GPU((void**)&faces_ref_d, faces_ref_size); send_data_to_GPU(faces_ref, faces_ref_d, faces_ref_size);
+	size_t vertex_ref_size = nCeldas*3*sizeof(int); alloc_memory_GPU((void**)&vertex_ref_d, vertex_ref_size); send_data_to_GPU(vertex_ref, vertex_ref_d, vertex_ref_size);
+	size_t area_size = nCeldas*sizeof(int); alloc_memory_GPU((void**)&area_d, area_size); send_data_to_GPU(area_m, area_d, area_size);
 
 	// Fluido
 	//From fluid constructor
@@ -160,7 +174,8 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		// 7. Calcular propiedades macro de la membrana
 		// -----------------------------------------------------------------------//
-		membrana.calcularCambioArea(referencia);
+		int nCeldas = membrana.get_nCeldas();
+		calcular_cambio_area_wrapper(nCeldas, nNodos, faces_d, vertex_d, faces_ref_d, vertex_ref_d, area_d);
 
 		// -----------------------------------------------------------------------//
 		// 9. Visualización
@@ -176,6 +191,10 @@ int main(int argc, char *argv[])
 			retrieve_data_from_GPU(velocidad_m, velocidad_d, velocidad_size);
 			retrieve_data_from_GPU(velocidad2_m, velocidad2_d, velocidad2_size);
 			retrieve_data_from_GPU(fuerza_mesh, fuerza_mesh_d, fuerza_mesh_size);
+			retrieve_data_from_GPU(faces_m, faces_d, faces_size);
+			retrieve_data_from_GPU(faces_ref, faces_ref_d, faces_ref_size);
+			retrieve_data_from_GPU(vertex_ref, vertex_ref_d, vertex_ref_size);
+			retrieve_data_from_GPU(area_m, area_d, area_size);
 
 			fluido.guardar(ts);
 			membrana.guardarVTU(ts);
@@ -190,6 +209,10 @@ int main(int argc, char *argv[])
 	free_memory_GPU(vertex_d);
 	free_memory_GPU(velocidad_d);
 	free_memory_GPU(velocidad2_d);
+	free_memory_GPU(fuerza_mesh_d);
+	free_memory_GPU(faces_d);
+	free_memory_GPU(faces_ref_d);
+	free_memory_GPU(area_d);
 
 
 

@@ -27,6 +27,9 @@ private:
 	float volumenE;
 
 public:
+	float* get_area(void);
+	int* get_faces(void);
+	int get_nCeldas(void);
 	float* get_fuerza(void);
 	int get_nNodos(void);
 	float* get_velocidad2(void);
