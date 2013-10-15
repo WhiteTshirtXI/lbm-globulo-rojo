@@ -11,6 +11,7 @@
 #include "calcularFuerzasHelfrich.h"
 #include "spread.h"
 #include "calcular_cambio_area.h"
+#include "calcular_fuerzas_FEM.h"
 
 #if defined(_WIN32)
 	#include <direct.h>
@@ -150,7 +151,7 @@ int main(int argc, char *argv[])
 		// -----------------------------------------------------------------------//
 		calcular_fuerzas_helfrich_wrapper(nNodos, fuerza_mesh_d);
 
-		membrana.calcularFuerzasFEM(referencia, ks);
+		calcular_fuerzas_FEM_wrapper(nNodos, nCeldas, faces_d, vertex_d, vertex_ref_d, ks, fuerza_mesh_d);
 
 
 		//Good up to here

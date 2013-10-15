@@ -26,6 +26,7 @@
 #define FUERZA_D(x, y, z, k) ACCESS4(fuerza_d, X, Y, Z, 3, x, y, z, k)
 
 #define VERTEX_D(i, j) ACCESS2(vertex_d, nNodos, 3, i, j)
+#define VERTEX_REF_D(i, j) ACCESS2(vertex_ref_d, nNodos, 3, i, j)
 #define FACES_D(i, j) ACCESS2(faces_d, nCeldas, 3, i, j)
 #define VELOCIDAD_D(i, j) ACCESS2(velocidad_d, nNodos, 3, i, j)
 #define VELOCIDAD2_D(i, j) ACCESS2(velocidad2_d, nNodos, 3, i, j)
