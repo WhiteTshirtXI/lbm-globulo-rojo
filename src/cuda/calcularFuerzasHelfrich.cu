@@ -30,12 +30,12 @@ void calcular_fuerzas_helfrich_wrapper(int nNodos, float *fuerza_mesh_d) {
 	//Maximum number of threads per block:           1024
 
 	dim3 grid_size;
-	grid_size.x = nNodos/1024 + 1;
+	grid_size.x = nNodos/100 + 1;
 
 
 	dim3 block_size;
 	// 1000 threads per blocks
-	block_size.x = 1024;
+	block_size.x = 100;
 
 	//Launch kernel
 	calcular_fuerzas_helfrich<<<grid_size, block_size>>>(nNodos, fuerza_mesh_d);

@@ -560,12 +560,12 @@ void calcular_fuerzas_FEM_wrapper(int nNodos, int nCeldas, int *faces_d, float *
 	//Maximum number of threads per block:           1024
 
 	dim3 grid_size;
-	grid_size.x = nCeldas/1024 + 1;
+	grid_size.x = nCeldas/100 + 1;
 
 
 	dim3 block_size;
 	// 1000 threads per blocks
-	block_size.x = 1024;
+	block_size.x = 100;
 
 	//Launch kernel
 	calcular_fuerzas_FEM<<<grid_size, block_size>>>(nNodos, nCeldas, faces_d, vertex_d, vertex_ref_d, ks, fuerza_mesh_d);

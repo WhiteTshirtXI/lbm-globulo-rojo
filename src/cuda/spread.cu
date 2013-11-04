@@ -82,12 +82,12 @@ void spread_wrapper(int nNodos, float *vertex_d, float *fuerza_mesh_d, float *fu
 	//Maximum number of threads per block:           1024
 
 	dim3 grid_size;
-	grid_size.x = nNodos/1024 + 1;
+	grid_size.x = nNodos/100 + 1;
 
 
 	dim3 block_size;
 	// 1000 threads per blocks
-	block_size.x = 1024;
+	block_size.x = 100;
 
 	//Launch kernel
 	spread<<<grid_size, block_size>>>(nNodos, vertex_d, fuerza_mesh_d, fuerza_d, X, Y, Z);
